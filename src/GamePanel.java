@@ -8,7 +8,7 @@ public class GamePanel extends JPanel implements Runnable{
     //screen settings
     final int originalTileSize = 32;
     final int scale = 2;
-    public final int tileSize = originalTileSize * scale;
+    private final int tileSize = originalTileSize * scale;
     final int maxScreenCol = 20;
     final int maxScreenRow = 15;
     final int screenWidth = tileSize * maxScreenCol;
@@ -25,6 +25,8 @@ public class GamePanel extends JPanel implements Runnable{
     //Player variables
     Player player = new Player(this, keyHandler);
 
+    //Tiles
+    TileManager tileManager = new TileManager(this);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -76,6 +78,13 @@ public class GamePanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
+
+        g2.drawString("I LOVE YOU RYISNOW", 100, 100);
+        tileManager.draw(g2);
         player.draw(g2);
+    }
+
+    public int getTileSize() {
+        return tileSize;
     }
 }

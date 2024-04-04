@@ -9,34 +9,38 @@ public class Player extends Entity {
     KeyHandler keyHandler;
     private int playerX, playerY, playerSpeed;
     private int zeroCounter;
+    private int spriteCounter;
+    private int spriteNum;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
         getPlayerImage();
         zeroCounter = 0;
+        spriteNum = 0;
+        spriteCounter = 0;
 
         //Set player values
         playerX = 100;
         playerY = 100;
         playerSpeed = 5;
-        direction = "down";
+        super.setDirection("down");
     }
 
     public void getPlayerImage() {
         try {
-            up0 = ImageIO.read(new File("Images/Player/up0.png"));
-            up1 = ImageIO.read(new File("Images/Player/up1.png"));
-            up2 = ImageIO.read(new File("Images/Player/up2.png"));
-            down0 = ImageIO.read(new File("Images/Player/down0.png"));
-            down1 = ImageIO.read(new File("Images/Player/down1.png"));
-            down2 = ImageIO.read(new File("Images/Player/down2.png"));
-            right0 = ImageIO.read(new File("Images/Player/right0.png"));
-            right1 = ImageIO.read(new File("Images/Player/right1.png"));
-            right2 = ImageIO.read(new File("Images/Player/right2.png"));
-            left0 = ImageIO.read(new File("Images/Player/left0.png"));
-            left1 = ImageIO.read(new File("Images/Player/left1.png"));
-            left2 = ImageIO.read(new File("Images/Player/left2.png"));
+            super.setUp0(ImageIO.read(new File("Images/Player/up0.png")));
+            super.setUp1(ImageIO.read(new File("Images/Player/up1.png")));
+            super.setUp2(ImageIO.read(new File("Images/Player/up2.png")));
+            super.setDown0(ImageIO.read(new File("Images/Player/down0.png")));
+            super.setDown1(ImageIO.read(new File("Images/Player/down1.png")));
+            super.setDown2(ImageIO.read(new File("Images/Player/down2.png")));
+            super.setRight0(ImageIO.read(new File("Images/Player/right0.png")));
+            super.setRight1(ImageIO.read(new File("Images/Player/right1.png")));
+            super.setRight2(ImageIO.read(new File("Images/Player/right2.png")));
+            super.setLeft0(ImageIO.read(new File("Images/Player/left0.png")));
+            super.setLeft1(ImageIO.read(new File("Images/Player/left1.png")));
+            super.setLeft2(ImageIO.read(new File("Images/Player/left2.png")));
         }
         catch (IOException e) {
             throw new RuntimeException(e);
@@ -48,7 +52,7 @@ public class Player extends Entity {
         if (keyHandler.up || keyHandler.down || keyHandler.left || keyHandler.right) {
             spriteCounter ++;
             if (spriteCounter == 10) {
-                if (direction.equals("right") || direction.equals("left")) {
+                if (super.getDirection().equals("right") || super.getDirection().equals("left")) {
                     if (spriteNum == 0) {
                         if (zeroCounter == 1) {
                             zeroCounter = 0;
@@ -89,38 +93,38 @@ public class Player extends Entity {
         if (keyHandler.up && keyHandler.right) {
             playerY -= (int) Math.sqrt(2 * Math.pow(playerSpeed, 2)) / 2 + 1;
             playerX += (int) Math.sqrt(2 * Math.pow(playerSpeed, 2)) / 2 + 1;
-            direction = "up";
+            super.setDirection("up");
         }
         else if (keyHandler.up && keyHandler.left) {
             playerY -= (int) Math.sqrt(2 * Math.pow(playerSpeed, 2)) / 2 + 1;
             playerX -= (int) Math.sqrt(2 * Math.pow(playerSpeed, 2)) / 2 + 1;
-            direction = "up";
+            super.setDirection("up");
         }
         else if (keyHandler.down && keyHandler.right) {
             playerY += (int) Math.sqrt(2 * Math.pow(playerSpeed, 2)) / 2 + 1;
             playerX += (int) Math.sqrt(2 * Math.pow(playerSpeed, 2)) / 2 + 1;
-            direction = "down";
+            super.setDirection("down");
         }
         else if (keyHandler.down && keyHandler.left) {
             playerY += (int) Math.sqrt(2 * Math.pow(playerSpeed, 2)) / 2 + 1;
             playerX -= (int) Math.sqrt(2 * Math.pow(playerSpeed, 2)) / 2 + 1;
-            direction = "down";
+            super.setDirection("down");
         }
         else if (keyHandler.up) {
             playerY -= playerSpeed;
-            direction = "up";
+            super.setDirection("up");
         }
         else if(keyHandler.down) {
             playerY += playerSpeed;
-            direction = "down";
+            super.setDirection("down");
         }
         else if(keyHandler.right) {
             playerX += playerSpeed;
-            direction = "right";
+            super.setDirection("right");
         }
         else if (keyHandler.left) {
             playerX -= playerSpeed;
-            direction = "left";
+            super.setDirection("left");
         }
 
 
@@ -129,52 +133,51 @@ public class Player extends Entity {
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
         //Animations for player
-        if (direction.equals("up")) {
-            System.out.println(spriteNum);
+        if (super.getDirection().equals("up")) {
             if (spriteNum == 1) {
-                image = up1;
+                image = super.getUp1();
             }
             else if (spriteNum == 2) {
-                image = up2;
+                image = super.getUp2();
             }
             else {
-                image = up0;
+                image = super.getUp0();
             }
         }
-        if(direction.equals("down")) {
+        if(super.getDirection().equals("down")) {
             if (spriteNum == 1) {
-                image = down1;
+                image = super.getDown1();
             }
             else if (spriteNum == 2) {
-                image = down2;
+                image = super.getDown2();
             }
             else {
-                image = down0;
+                image = super.getDown0();
             }
         }
-        if(direction.equals("right")) {
+        if(super.getDirection().equals("right")) {
             if (spriteNum == 1) {
-                image = right1;
+                image = super.getRight1();
             }
             else if (spriteNum == 2) {
-                image = right2;
+                image = super.getRight2();
             }
             else {
-                image = right0;
+                image = super.getRight0();
             }
         }
-        if (direction.equals("left")) {
+        if (super.getDirection().equals("left")) {
             if (spriteNum == 1) {
-                image = left1;
+                image = super.getLeft1();
             }
             else if (spriteNum == 2) {
-                image = left2;
+                image = super.getLeft2();
             }
             else {
-                image = left0;
+                image = super.getLeft0();
             }
         }
 
-        g2.drawImage(image, playerX, playerY, gamePanel.tileSize, gamePanel.tileSize, null);
+        g2.drawImage(image, playerX, playerY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
     }
 }
