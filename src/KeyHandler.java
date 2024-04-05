@@ -1,7 +1,7 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
-    public boolean up, down, left, right;
+    public boolean up, down, left, right, roll;
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -20,6 +20,9 @@ public class KeyHandler implements KeyListener {
         }
         if (keyCode == KeyEvent.VK_D) {
             right = true;
+        }
+        if (keyCode == KeyEvent.VK_SPACE) {
+            roll = true;
         }
     }
 

@@ -9,6 +9,7 @@ public class Player extends Entity {
     KeyHandler keyHandler;
     private int playerX, playerY, playerSpeed;
     private int zeroCounter;
+    private boolean isRolling;
     private int spriteCounter;
     private int spriteNum;
 
@@ -23,6 +24,7 @@ public class Player extends Entity {
         //Set player values
         playerX = 100;
         playerY = 100;
+        isRolling = false;
         playerSpeed = 5;
         super.setDirection("down");
     }
@@ -126,7 +128,9 @@ public class Player extends Entity {
             playerX -= playerSpeed;
             super.setDirection("left");
         }
+        else if (keyHandler.roll) {
 
+        }
 
     }
 
@@ -177,6 +181,7 @@ public class Player extends Entity {
                 image = super.getLeft0();
             }
         }
+
 
         g2.drawImage(image, playerX, playerY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
     }

@@ -9,7 +9,6 @@ public class Main {
 
         GamePanel gamePanel = new GamePanel();
         TileManager tileManager = new TileManager(gamePanel);
-        tileManager.printMap();
         window.add(gamePanel);
         window.pack();
 

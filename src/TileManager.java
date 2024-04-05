@@ -8,19 +8,20 @@ import java.util.Scanner;
 
 public class TileManager {
     private GamePanel gamePanel;
-    private Tile[] tile;
+    private Tile[] tiletypes;
     private int[][] map;
 
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        tile = new Tile[1];
+        tiletypes = new Tile[2];
         getTileImages();
         getMap("Data/map_01");
     }
 
     public void getTileImages() {
         try {
-            tile[0] = new Tile(ImageIO.read(new File("Images/Tiles/grass.png")));
+            tiletypes[0] = new Tile(ImageIO.read(new File("Images/Tiles/grass.png")));
+            tiletypes[1] = new Tile(ImageIO.read(new File("Images/Tiles/water.png")));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -43,7 +44,7 @@ public class TileManager {
             fileData.add(s.nextLine());
 
         int rows = fileData.size();
-        int cols = fileData.get(0).length();
+        int cols = fileData.get(0).split(" ").length;
 
         map = new int[rows][cols];
 
@@ -56,8 +57,16 @@ public class TileManager {
     }
 
     public void draw(Graphics2D g2) {
-        g2.drawImage(tile[0].getImage(), 0, 0, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
-        g2.drawImage(tile[0].getImage(), 0, 0, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+        int tileY = 0;
+        int tileX = 0;
+        for (int row = 0; row < map.length; row ++ ) {
+            tileX = 0;
+            for (int col = 0; col < map[row].length; col ++) {
+                g2.drawImage(tiletypes[map[row][col]].getImage(), tileX, tileY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+                tileX += gamePanel.getTileSize();
+            }
+            tileY += gamePanel.getTileSize();
+        }
     }
 
     public void printMap () {
