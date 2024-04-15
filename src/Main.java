@@ -8,11 +8,10 @@ public class Main {
         window.setTitle("Pew Pew Adventures");
 
         GamePanel gamePanel = new GamePanel();
-        TileManager tileManager = new TileManager(gamePanel);
         window.add(gamePanel);
         window.pack();
 
-        window.setLocation(0, 0);
+        window.setLocationRelativeTo(null);
         window.setVisible(true);
 
         gamePanel.startGameThread();

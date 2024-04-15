@@ -7,13 +7,14 @@ import java.io.IOException;
 public class Player extends Entity {
     GamePanel gamePanel;
     KeyHandler keyHandler;
-    private int playerX, playerY, playerSpeed;
+    private int playerX, playerY;
     private int zeroCounter;
     private boolean isRolling;
     private int spriteCounter;
     private int spriteNum;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
+        super(0, 0, 5, "down");
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
         getPlayerImage();
@@ -22,11 +23,9 @@ public class Player extends Entity {
         spriteCounter = 0;
 
         //Set player values
-        playerX = 100;
-        playerY = 100;
+        playerX = gamePanel.getScreenWidth()/2 - gamePanel.getTileSize();
+        playerY = gamePanel.getScreenHeight()/2 - gamePanel.getTileSize();
         isRolling = false;
-        playerSpeed = 5;
-        super.setDirection("down");
     }
 
     public void getPlayerImage() {
@@ -93,43 +92,40 @@ public class Player extends Entity {
         }
         //Movement for player
         if (keyHandler.up && keyHandler.right) {
-            playerY -= (int) Math.sqrt(2 * Math.pow(playerSpeed, 2)) / 2 + 1;
-            playerX += (int) Math.sqrt(2 * Math.pow(playerSpeed, 2)) / 2 + 1;
+            setWorldY(getWorldY() - (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1);
+            setWorldX(getWorldX() + (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1);
             super.setDirection("up");
         }
         else if (keyHandler.up && keyHandler.left) {
-            playerY -= (int) Math.sqrt(2 * Math.pow(playerSpeed, 2)) / 2 + 1;
-            playerX -= (int) Math.sqrt(2 * Math.pow(playerSpeed, 2)) / 2 + 1;
+            setWorldY(getWorldY() - (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1);
+            setWorldX(getWorldX() - (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1);
             super.setDirection("up");
         }
         else if (keyHandler.down && keyHandler.right) {
-            playerY += (int) Math.sqrt(2 * Math.pow(playerSpeed, 2)) / 2 + 1;
-            playerX += (int) Math.sqrt(2 * Math.pow(playerSpeed, 2)) / 2 + 1;
+            setWorldY(getWorldY() + (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1);
+            setWorldX(getWorldX() + (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1);
             super.setDirection("down");
         }
         else if (keyHandler.down && keyHandler.left) {
-            playerY += (int) Math.sqrt(2 * Math.pow(playerSpeed, 2)) / 2 + 1;
-            playerX -= (int) Math.sqrt(2 * Math.pow(playerSpeed, 2)) / 2 + 1;
+            setWorldY(getWorldY() + (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1);
+            setWorldX(getWorldX() - (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1);
             super.setDirection("down");
         }
         else if (keyHandler.up) {
-            playerY -= playerSpeed;
+            setWorldY(getWorldY() - getSpeed());
             super.setDirection("up");
         }
         else if(keyHandler.down) {
-            playerY += playerSpeed;
+            setWorldY(getWorldY() + getSpeed());
             super.setDirection("down");
         }
         else if(keyHandler.right) {
-            playerX += playerSpeed;
+            setWorldX(getWorldX() + getSpeed());
             super.setDirection("right");
         }
         else if (keyHandler.left) {
-            playerX -= playerSpeed;
+            setWorldX(getWorldX() - getSpeed());
             super.setDirection("left");
-        }
-        else if (keyHandler.roll) {
-
         }
 
     }
@@ -184,5 +180,13 @@ public class Player extends Entity {
 
 
         g2.drawImage(image, playerX, playerY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+    }
+
+    public int getPlayerX() {
+        return playerX;
+    }
+
+    public int getPlayerY() {
+        return playerY;
     }
 }

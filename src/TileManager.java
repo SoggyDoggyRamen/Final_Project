@@ -10,9 +10,11 @@ public class TileManager {
     private GamePanel gamePanel;
     private Tile[] tiletypes;
     private int[][] map;
+    private Player player;
 
-    public TileManager(GamePanel gamePanel) {
+    public TileManager(GamePanel gamePanel, Player player) {
         this.gamePanel = gamePanel;
+        this.player = player;
         tiletypes = new Tile[2];
         getTileImages();
         getMap("Data/map_01");
@@ -57,24 +59,19 @@ public class TileManager {
     }
 
     public void draw(Graphics2D g2) {
-        int tileY = 0;
-        int tileX = 0;
+        int y = 0;
+        int x = 0;
+        int tileRow = 0;
+        int tileCol = 0;
         for (int row = 0; row < map.length; row ++ ) {
-            tileX = 0;
+            tileCol = 0;
             for (int col = 0; col < map[row].length; col ++) {
-                g2.drawImage(tiletypes[map[row][col]].getImage(), tileX, tileY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
-                tileX += gamePanel.getTileSize();
+                x = tileCol * gamePanel.getTileSize() - player.getWorldX() + player.getPlayerX();
+                y = tileRow * gamePanel.getTileSize() - player.getWorldY() + player.getPlayerY();
+                g2.drawImage(tiletypes[map[row][col]].getImage(), x, y, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+                tileCol ++;
             }
-            tileY += gamePanel.getTileSize();
-        }
-    }
-
-    public void printMap () {
-        for (int[] row: map) {
-            for (int col: row) {
-                System.out.print(col + " ");
-            }
-            System.out.println();
+            tileRow ++;
         }
     }
 }

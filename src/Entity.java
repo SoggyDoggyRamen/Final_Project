@@ -1,21 +1,36 @@
 import java.awt.image.BufferedImage;
 
 public class Entity {
-    private int x, y;
+    private int worldX, worldY;
     private int speed;
     private BufferedImage up0, up1, up2, down0, down1, down2, left0, left1, left2, right0, right1, right2;
     private String direction;
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
+    public Entity(int worldX, int worldY, int speed, String direction) {
+        this.worldX = worldX;
+        this.worldY = worldY;
+        this.speed = speed;
+        this.direction = direction;
     }
 
     public int getSpeed() {
         return speed;
+    }
+
+    public int getWorldX() {
+        return worldX;
+    }
+
+    public int getWorldY() {
+        return worldY;
+    }
+
+    public void setWorldX(int worldX) {
+        this.worldX = worldX;
+    }
+
+    public void setWorldY(int worldY) {
+        this.worldY = worldY;
     }
 
     public BufferedImage getUp0() {
@@ -68,14 +83,6 @@ public class Entity {
 
     public String getDirection() {
         return direction;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     public void setSpeed(int speed) {
