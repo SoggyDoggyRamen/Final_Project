@@ -92,13 +92,13 @@ public class Player extends Entity {
         }
         //Movement for player
         if (keyHandler.up && keyHandler.right) {
-            setWorldY(getWorldY() - (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1);
-            setWorldX(getWorldX() + (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1);
+            setWorldY(getWorldY() - (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1 - 2);
+            setWorldX(getWorldX() + (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1 + 2);
             super.setDirection("up");
         }
         else if (keyHandler.up && keyHandler.left) {
-            setWorldY(getWorldY() - (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1);
-            setWorldX(getWorldX() - (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1);
+            setWorldY(getWorldY() - (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1 - 2);
+            setWorldX(getWorldX() - (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1 - 2);
             super.setDirection("up");
         }
         else if (keyHandler.down && keyHandler.right) {
@@ -107,8 +107,8 @@ public class Player extends Entity {
             super.setDirection("down");
         }
         else if (keyHandler.down && keyHandler.left) {
-            setWorldY(getWorldY() + (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1);
-            setWorldX(getWorldX() - (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1);
+            setWorldY(getWorldY() + (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1 + 2);
+            setWorldX(getWorldX() - (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1 - 2);
             super.setDirection("down");
         }
         else if (keyHandler.up) {

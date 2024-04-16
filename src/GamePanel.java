@@ -20,19 +20,28 @@ public class GamePanel extends JPanel implements Runnable{
     //Game tools
     Thread gameThread;
     KeyHandler keyHandler = new KeyHandler();
+    MouseHandler mouseHandler = new MouseHandler();
 
 
-    //Player variables
+    //Player
     Player player = new Player(this, keyHandler);
 
-    //Tiles
+    //TileManager
     TileManager tileManager = new TileManager(this, player);
+
+    //Projectiles
+    Bullet[] bullets = new Bullet[50];
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
         this.addKeyListener(keyHandler);
+        this.addMouseListener(mouseHandler);
         this.setFocusable(true);
+        for (int i = 0; i < 50; i ++) {
+            Bullet bullet = new Bullet(this, mouseHandler, player);
+            bullets[i] = bullet;
+        }
     }
 
     public void startGameThread() {
