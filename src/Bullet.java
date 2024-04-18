@@ -3,21 +3,21 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Bullet {
+public class Bullet extends Entity{
     private GamePanel gamePanel;
     private MouseHandler mouseHandler;
     private Player player;
     private boolean shoot;
-    private int speed;
-    private int bulletX;
-    private int bulletY;
+    private int bulletX, bulletY;
     private Image bulletImage;
-    private static int bulletNum;
+    private long startTime;
+    private long timePassed;
 
 
     public Bullet(GamePanel gamePanel, MouseHandler mouseHandler, Player player) {
+        super(-1000, -1000, 8, "down");
         shoot = false;
-        speed = 8;
+        timePassed = 1000000001;
         this.mouseHandler = mouseHandler;
         this.gamePanel = gamePanel;
         this.player = player;
@@ -34,17 +34,19 @@ public class Bullet {
     }
 
     public void update() {
-        if (mouseHandler.mouse1Down) {
-            shoot = true;
-        }
-        else {
-            shoot = false;
-        }
+        shoot = true;
+        PointerInfo a = MouseInfo.getPointerInfo();
+        Point b = a.getLocation();
+        bulletX = (int) b.getX() - 320;
+        bulletY = (int) b.getY() - 40;
     }
 
     public void draw(Graphics2D g2) {
-        if (shoot) {
-            g2.drawImage(bulletImage, player.getPlayerX() + gamePanel.getTileSize()/2 - 2, player.getPlayerY() + gamePanel.getTileSize()/2 - 2, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
-        }
+        //g2.drawImage(bulletImage, player.getPlayerX() + gamePanel.getTileSize()/2 - 2, player.getPlayerY() + gamePanel.getTileSize()/2 - 2, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+        g2.drawImage(bulletImage, bulletX, bulletY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+    }
+
+    public boolean getShoot() {
+        return shoot;
     }
 }

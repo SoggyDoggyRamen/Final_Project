@@ -3,6 +3,8 @@ import java.awt.event.MouseListener;
 
 public class MouseHandler implements MouseListener {
     public boolean mouse1Down;
+    public int x, y;
+
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -13,6 +15,8 @@ public class MouseHandler implements MouseListener {
     public void mousePressed(MouseEvent e) {
         if (e.getButton() == 1) {
             mouse1Down = true;
+            x = e.getXOnScreen();
+            y = e.getYOnScreen();
         }
     }
 
@@ -25,7 +29,7 @@ public class MouseHandler implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        System.out.println("hi");
     }
 
     @Override

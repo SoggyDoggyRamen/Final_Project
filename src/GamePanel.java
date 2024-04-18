@@ -30,7 +30,7 @@ public class GamePanel extends JPanel implements Runnable{
     TileManager tileManager = new TileManager(this, player);
 
     //Projectiles
-    Bullet[] bullets = new Bullet[50];
+    Bullets bullets = new Bullets(this, mouseHandler, player, 50);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -38,10 +38,6 @@ public class GamePanel extends JPanel implements Runnable{
         this.addKeyListener(keyHandler);
         this.addMouseListener(mouseHandler);
         this.setFocusable(true);
-        for (int i = 0; i < 50; i ++) {
-            Bullet bullet = new Bullet(this, mouseHandler, player);
-            bullets[i] = bullet;
-        }
     }
 
     public void startGameThread() {
@@ -82,6 +78,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void update() {
         player.update();
+        bullets.update();
     }
 
     public void paintComponent(Graphics g) {
@@ -91,6 +88,7 @@ public class GamePanel extends JPanel implements Runnable{
         g2.drawString("I LOVE YOU RYISNOW", 100, 100);
         tileManager.draw(g2);
         player.draw(g2);
+        bullets.draw(g2);
     }
 
     public int getTileSize() {
