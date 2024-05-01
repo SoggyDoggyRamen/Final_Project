@@ -8,7 +8,8 @@ public class Bullet extends Entity{
     private MouseHandler mouseHandler;
     private Player player;
     private boolean shoot;
-    private int bulletX, bulletY;
+    private String upDown, leftRight;
+    private int bulletX, bulletY, velX, velY;
     private Image bulletImage;
     private long startTime;
     private long timePassed;
@@ -33,16 +34,46 @@ public class Bullet extends Entity{
         }
     }
 
+    public void setLeftRight(int mouseX) {
+        int playerX = player.getPlayerX() + 32;
+        if (mouseX > playerX) {
+            leftRight = "right";
+        }
+        if (mouseX < playerX) {
+            leftRight = "left";
+        }
+    }
+
+    public void setUpDown(int mouseY) {
+        int playerY = player.getPlayerY() + 32;
+        if (mouseY > playerY) {
+            upDown = "down";
+        }
+        if (mouseY < playerY) {
+            upDown = "up";
+        }
+    }
+
+    public void getBulletVelocity() {
+        PointerInfo a = MouseInfo.getPointerInfo();
+        Point b = a.getLocation();
+        int mouseX = (int) b.getX() - 320;
+        int mouseY = (int) b.getY() - 40;
+    }
+
     public void update() {
         shoot = true;
         PointerInfo a = MouseInfo.getPointerInfo();
         Point b = a.getLocation();
-        bulletX = (int) b.getX() - 320;
-        bulletY = (int) b.getY() - 40;
+        int mouseX = (int) b.getX() - 320;
+        int mouseY = (int) b.getY() - 40;
+        setLeftRight(mouseX);
+        setUpDown(mouseY);
+        bulletX = mouseX;
+        bulletY = mouseY;
     }
 
     public void draw(Graphics2D g2) {
-        //g2.drawImage(bulletImage, player.getPlayerX() + gamePanel.getTileSize()/2 - 2, player.getPlayerY() + gamePanel.getTileSize()/2 - 2, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
         g2.drawImage(bulletImage, bulletX, bulletY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
     }
 
