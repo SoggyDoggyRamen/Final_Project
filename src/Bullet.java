@@ -3,9 +3,11 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+
 public class Bullet extends Entity{
     private GamePanel gamePanel;
     private MouseHandler mouseHandler;
+    private TileManager tileManager;
     private Player player;
     private boolean shoot;
     private String upDown, leftRight;
@@ -15,13 +17,15 @@ public class Bullet extends Entity{
     private long timePassed;
 
 
-    public Bullet(GamePanel gamePanel, MouseHandler mouseHandler, Player player) {
+    public Bullet(GamePanel gamePanel, MouseHandler mouseHandler, TileManager tileManager, Player player) {
         super(-1000, -1000, 8, "down");
         shoot = false;
+        super.setSpeed(12);
         timePassed = 1000000001;
         this.mouseHandler = mouseHandler;
         this.gamePanel = gamePanel;
         this.player = player;
+        this.tileManager = tileManager;
         getBulletImage();
     }
 
@@ -54,23 +58,45 @@ public class Bullet extends Entity{
         }
     }
 
-    public void getBulletVelocity() {
+    public void getBulletVelocity(int mouseX, int mouseY) {
+        double dx = mouseX - player.getPlayerX();
+        double dy = mouseY - player.getPlayerY();
+
+        double length = Math.sqrt(dx*dx + dy*dy);
+
+        dx /= length;
+        dy /= length;
+
+        velX = (int) (dx * super.getSpeed());
+        velY = (int) (dy * super.getSpeed());
+    }
+
+    public void setShoot(boolean bool) {
+        shoot = bool;
+        System.out.print("Hello");
         PointerInfo a = MouseInfo.getPointerInfo();
         Point b = a.getLocation();
         int mouseX = (int) b.getX() - 320;
-        int mouseY = (int) b.getY() - 40;
+        int mouseY = (int) b.getY() - 30;
+        getBulletVelocity(mouseX, mouseY);
+//        super.setWorldX(mouseX - player.getPlayerX() + player.getWorldX());
+//        super.setWorldY(mouseY - player.getPlayerY() + player.getWorldY());
+        super.setWorldX(player.getWorldX() + 16);
+        super.setWorldY(player.getWorldY() + 16);
     }
 
     public void update() {
-        shoot = true;
-        PointerInfo a = MouseInfo.getPointerInfo();
-        Point b = a.getLocation();
-        int mouseX = (int) b.getX() - 320;
-        int mouseY = (int) b.getY() - 40;
-        setLeftRight(mouseX);
-        setUpDown(mouseY);
-        bulletX = mouseX;
-        bulletY = mouseY;
+        super.setWorldX(super.getWorldX() + velX);
+        super.setWorldY(super.getWorldY() + velY);
+        bulletX = (super.getWorldX() - player.getWorldX() + player.getPlayerX());
+        bulletY = (super.getWorldY() - player.getWorldY() + player.getPlayerY());
+        if (super.getWorldX() < 0 || super.getWorldX() > tileManager.getMap()[0].length * gamePanel.getTileSize() || super.getWorldY() < 0 || super.getWorldY() > tileManager.getMap().length * gamePanel.getTileSize()) {
+            shoot = false;
+        }
+        if (!shoot) {
+            setWorldX(-1000);
+            setWorldY(-1000);
+        }
     }
 
     public void draw(Graphics2D g2) {

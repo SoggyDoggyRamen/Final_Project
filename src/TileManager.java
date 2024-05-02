@@ -17,7 +17,7 @@ public class TileManager {
         this.player = player;
         tiletypes = new Tile[2];
         getTileImages();
-        getMap("Data/map_01");
+        map("Data/map_01");
     }
 
     public void getTileImages() {
@@ -30,7 +30,7 @@ public class TileManager {
         }
     }
 
-    public void getMap(String fileName) {
+    public void map(String fileName) {
         File f = new File(fileName);
         Scanner s = null;
         try {
@@ -73,5 +73,13 @@ public class TileManager {
             }
             tileRow ++;
         }
+    }
+
+    public Tile[] getTiletypes() {
+        return tiletypes;
+    }
+
+    public int[][] getMap() {
+        return map;
     }
 }

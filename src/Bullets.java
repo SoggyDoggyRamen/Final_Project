@@ -9,10 +9,10 @@ public class Bullets {
     private long timePassed;
     private long startTime;
 
-    public Bullets(GamePanel gamePanel, MouseHandler mouseHandler, Player player, int num) {
+    public Bullets(GamePanel gamePanel, MouseHandler mouseHandler, Player player, int num, TileManager tileManager) {
         bullets = new Bullet[num];
         for (int i = 0; i < num; i ++) {
-            Bullet bullet = new Bullet(gamePanel, mouseHandler, player);
+            Bullet bullet = new Bullet(gamePanel, mouseHandler, tileManager, player);
             bullets[i] = bullet;
         }
         this.num = num;
@@ -28,7 +28,7 @@ public class Bullets {
                 if (bulletNum == num - 1) {
                     bulletNum = 0;
                 }
-                bullets[bulletNum].update();
+                bullets[bulletNum].setShoot(true);
                 bulletNum ++;
                 startTime = System.currentTimeMillis();
                 timePassed = 0;
@@ -39,6 +39,11 @@ public class Bullets {
         }
         else {
             timePassed = 500;
+        }
+        for (Bullet bullet: bullets) {
+            if (bullet.getShoot()) {
+                bullet.update();
+            }
         }
     }
 
