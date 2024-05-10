@@ -8,10 +8,8 @@ public class Player extends Entity {
     GamePanel gamePanel;
     KeyHandler keyHandler;
     private int playerX, playerY;
-    private int zeroCounter;
+    private int zeroCounter, spriteCounter, spriteNum;
     private boolean isRolling;
-    private int spriteCounter;
-    private int spriteNum;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         super(0, 0, 5, "down");
