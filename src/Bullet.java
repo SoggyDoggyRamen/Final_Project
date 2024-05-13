@@ -73,14 +73,11 @@ public class Bullet extends Entity{
 
     public void setShoot(boolean bool) {
         shoot = bool;
-        System.out.print("Hello");
         PointerInfo a = MouseInfo.getPointerInfo();
         Point b = a.getLocation();
         int mouseX = (int) b.getX() - 320;
         int mouseY = (int) b.getY() - 30;
         getBulletVelocity(mouseX, mouseY);
-//        super.setWorldX(mouseX - player.getPlayerX() + player.getWorldX());
-//        super.setWorldY(mouseY - player.getPlayerY() + player.getWorldY());
         super.setWorldX(player.getWorldX() + 16);
         super.setWorldY(player.getWorldY() + 16);
     }

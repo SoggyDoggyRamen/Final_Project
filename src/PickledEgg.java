@@ -6,15 +6,18 @@ import java.io.IOException;
 
 public class PickledEgg extends Entity{
     GamePanel gamePanel;
-    private int zeroCounter, spriteCounter, spriteNum, pEggX, pEggY;
-    private boolean moving;
+    Player player;
+    private int zeroCounter, spriteCounter, spriteNum, pEggX, pEggY, velX, velY;
+    private boolean alive;
 
-    public PickledEgg(Player player, GamePanel gamepanel) {
-        super(0, 0 , 5, "down");
+    public PickledEgg(Player player, GamePanel gamepanel, int worldX, int worldY) {
+        super(worldX, worldY , 5, "down");
         this.gamePanel = gamepanel;
+        this.player = player;
         zeroCounter = 0;
         spriteNum = 0;
         spriteCounter = 0;
+        alive = true;
     }
 
     public void getPickledEggImage() {
@@ -28,7 +31,28 @@ public class PickledEgg extends Entity{
         }
     }
 
+    public void getPickledVelocity() {
+        double dx = pEggX - player.getPlayerX();
+        double dy = pEggY - player.getPlayerY();
+
+        double length = Math.sqrt(dx*dx + dy*dy);
+
+        dx /= length;
+        dy /= length;
+
+        velX = (int) (dx * super.getSpeed());
+        velY = (int) (dy * super.getSpeed());
+    }
+
     public void update() {
+        //moving to player
+        getPickledVelocity();
+        super.setWorldX(super.getWorldX() + velX);
+        super.setWorldY(super.getWorldY() + velY);
+        pEggX = (super.getWorldX() - player.getWorldX() + player.getPlayerX());
+        pEggY = (super.getWorldX() - player.getWorldY() + player.getPlayerY());
+
+        // animations
         spriteCounter ++;
         if (spriteCounter == 10) {
             if (super.getDirection().equals("right") || super.getDirection().equals("left")) {
@@ -115,6 +139,5 @@ public class PickledEgg extends Entity{
         }
 
 
-        g2.drawImage(image, pEggX, pEggY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
     }
 }
