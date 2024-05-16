@@ -7,17 +7,19 @@ import java.io.IOException;
 public class PickledEgg extends Entity{
     GamePanel gamePanel;
     Player player;
-    private int zeroCounter, spriteCounter, spriteNum, pEggX, pEggY, velX, velY;
+    private int zeroCounter, spriteCounter, spriteNum, velX, velY;
     private boolean alive;
 
     public PickledEgg(Player player, GamePanel gamepanel, int worldX, int worldY) {
-        super(worldX, worldY , 5, "down");
+        super(worldX, worldY , 5, "down", 0, 0);
+        createHitbox(6, 1, 19, 29);
         this.gamePanel = gamepanel;
         this.player = player;
         zeroCounter = 0;
         spriteNum = 0;
         spriteCounter = 0;
         alive = true;
+        getPickledEggImage();
     }
 
     public void getPickledEggImage() {
@@ -32,8 +34,8 @@ public class PickledEgg extends Entity{
     }
 
     public void getPickledVelocity() {
-        double dx = pEggX - player.getPlayerX();
-        double dy = pEggY - player.getPlayerY();
+        double dx = player.getPlayerX() - getScreenX();
+        double dy = player.getPlayerY() - getScreenY();
 
         double length = Math.sqrt(dx*dx + dy*dy);
 
@@ -47,10 +49,14 @@ public class PickledEgg extends Entity{
     public void update() {
         //moving to player
         getPickledVelocity();
+        System.out.println("hi");
         super.setWorldX(super.getWorldX() + velX);
         super.setWorldY(super.getWorldY() + velY);
-        pEggX = (super.getWorldX() - player.getWorldX() + player.getPlayerX());
-        pEggY = (super.getWorldX() - player.getWorldY() + player.getPlayerY());
+        setScreenX((super.getWorldX() - player.getWorldX() + player.getPlayerX()));
+        setScreenY((super.getWorldY() - player.getWorldY() + player.getPlayerY()));
+
+        //move the hitbox
+        createHitbox(6, 1, 19, 29);
 
         // animations
         spriteCounter ++;
@@ -138,6 +144,7 @@ public class PickledEgg extends Entity{
             }
         }
 
-
+        g2.draw(getHitbox());
+        g2.drawImage(image, getScreenX(), getScreenY(), gamePanel.getTileSize(), gamePanel.getTileSize(), null);
     }
 }

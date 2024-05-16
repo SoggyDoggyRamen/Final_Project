@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable{
     Player player = new Player(this, keyHandler);
 
     //Enemies
-
+    PickledEgg pickledEgg = new PickledEgg(player, this, 0, 0);
 
     //TileManager
     TileManager tileManager = new TileManager(this, player);
@@ -82,15 +82,15 @@ public class GamePanel extends JPanel implements Runnable{
     public void update() {
         player.update();
         bullets.update();
+        pickledEgg.update();
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
-
-        g2.drawString("I LOVE YOU RYISNOW", 100, 100);
         tileManager.draw(g2);
         bullets.draw(g2);
+        pickledEgg.draw(g2);
         player.draw(g2);
     }
 

@@ -7,22 +7,18 @@ import java.io.IOException;
 public class Player extends Entity {
     GamePanel gamePanel;
     KeyHandler keyHandler;
-    private int playerX, playerY;
     private int zeroCounter, spriteCounter, spriteNum;
     private boolean isRolling;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
-        super(0, 0, 5, "down");
+        super(0, 0, 5, "down", gamePanel.getScreenWidth()/2 - gamePanel.getTileSize(), gamePanel.getScreenHeight()/2 - gamePanel.getTileSize());
+        createHitbox(7, 2, 17, 29);
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
         getPlayerImage();
         zeroCounter = 0;
         spriteNum = 0;
         spriteCounter = 0;
-
-        //Set player values
-        playerX = gamePanel.getScreenWidth()/2 - gamePanel.getTileSize();
-        playerY = gamePanel.getScreenHeight()/2 - gamePanel.getTileSize();
         isRolling = false;
     }
 
@@ -176,15 +172,15 @@ public class Player extends Entity {
             }
         }
 
-
-        g2.drawImage(image, playerX, playerY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+        g2.draw(getHitbox());
+        g2.drawImage(image, super.getScreenX(), getScreenY(), gamePanel.getTileSize(), gamePanel.getTileSize(), null);
     }
 
     public int getPlayerX() {
-        return playerX;
+        return getScreenX();
     }
 
     public int getPlayerY() {
-        return playerY;
+        return getScreenY();
     }
 }

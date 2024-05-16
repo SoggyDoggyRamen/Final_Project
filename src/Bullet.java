@@ -11,14 +11,15 @@ public class Bullet extends Entity{
     private Player player;
     private boolean shoot;
     private String upDown, leftRight;
-    private int bulletX, bulletY, velX, velY;
+    private int velX, velY;
     private Image bulletImage;
     private long startTime;
     private long timePassed;
 
 
     public Bullet(GamePanel gamePanel, MouseHandler mouseHandler, TileManager tileManager, Player player) {
-        super(-1000, -1000, 8, "down");
+        super(-1000, -1000, 8, "down", 0, 0);
+        createHitbox(0, 0, 4, 4);
         shoot = false;
         super.setSpeed(12);
         timePassed = 1000000001;
@@ -85,8 +86,9 @@ public class Bullet extends Entity{
     public void update() {
         super.setWorldX(super.getWorldX() + velX);
         super.setWorldY(super.getWorldY() + velY);
-        bulletX = (super.getWorldX() - player.getWorldX() + player.getPlayerX());
-        bulletY = (super.getWorldY() - player.getWorldY() + player.getPlayerY());
+        setScreenX((super.getWorldX() - player.getWorldX() + player.getPlayerX()));
+        setScreenY((super.getWorldY() - player.getWorldY() + player.getPlayerY()));
+        createHitbox(0, 0, 4, 4);
         if (super.getWorldX() < 0 || super.getWorldX() > tileManager.getMap()[0].length * gamePanel.getTileSize() || super.getWorldY() < 0 || super.getWorldY() > tileManager.getMap().length * gamePanel.getTileSize()) {
             shoot = false;
         }
@@ -97,7 +99,8 @@ public class Bullet extends Entity{
     }
 
     public void draw(Graphics2D g2) {
-        g2.drawImage(bulletImage, bulletX, bulletY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+        g2.draw(getHitbox());
+        g2.drawImage(bulletImage, getScreenX(), getScreenY(), gamePanel.getTileSize(), gamePanel.getTileSize(), null);
     }
 
     public boolean getShoot() {

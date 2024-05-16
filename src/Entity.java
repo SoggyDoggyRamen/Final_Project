@@ -1,18 +1,31 @@
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Entity {
-    private int worldX, worldY;
+    private int worldX, worldY, screenX, screenY;
     private int speed;
     private BufferedImage up0, up1, up2, down0, down1, down2, left0, left1, left2, right0, right1, right2;
     private String direction;
+    private Rectangle hitbox;
+    private int health;
 
-    public Entity(int worldX, int worldY, int speed, String direction) {
+    public Entity(int worldX, int worldY, int speed, String direction, int screenX, int screenY) {
         this.worldX = worldX;
         this.worldY = worldY;
+        this.screenX = screenX;
+        this.screenY = screenY;
         this.speed = speed;
         this.direction = direction;
     }
 
+    public void createHitbox(int incrementX, int incrementY, int width, int height) {
+        hitbox = new Rectangle();
+        hitbox.setBounds(screenX + incrementX * 2, screenY + incrementY * 2, width * 2, height * 2);
+    }
+
+    public Rectangle getHitbox() {
+        return hitbox;
+    }
     public int getSpeed() {
         return speed;
     }
@@ -141,4 +154,19 @@ public class Entity {
         this.direction = direction;
     }
 
+    public int getScreenX() {
+        return screenX;
+    }
+
+    public int getScreenY() {
+        return screenY;
+    }
+
+    public void setScreenX(int screenX) {
+        this.screenX = screenX;
+    }
+
+    public void setScreenY(int screenY) {
+        this.screenY = screenY;
+    }
 }
