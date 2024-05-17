@@ -7,11 +7,11 @@ import java.io.IOException;
 public class PickledEgg extends Entity{
     GamePanel gamePanel;
     Player player;
-    private int zeroCounter, spriteCounter, spriteNum, velX, velY;
+    private int zeroCounter, spriteCounter, spriteNum, velX, velY, health;
     private boolean alive;
 
-    public PickledEgg(Player player, GamePanel gamepanel, int worldX, int worldY) {
-        super(worldX, worldY , 5, "down", 0, 0);
+    public PickledEgg(Player player, GamePanel gamepanel, int worldX, int worldY, Bullets bullets) {
+        super(worldX, worldY , 7, "down", 0, 0);
         createHitbox(6, 1, 19, 29);
         this.gamePanel = gamepanel;
         this.player = player;
@@ -146,5 +146,9 @@ public class PickledEgg extends Entity{
 
         g2.draw(getHitbox());
         g2.drawImage(image, getScreenX(), getScreenY(), gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+    }
+
+    public boolean getAlive() {
+        return alive;
     }
 }

@@ -8,10 +8,12 @@ public class Player extends Entity {
     GamePanel gamePanel;
     KeyHandler keyHandler;
     private int zeroCounter, spriteCounter, spriteNum;
+    private double angle;
+    private double angleInRadians;
     private boolean isRolling;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
-        super(0, 0, 5, "down", gamePanel.getScreenWidth()/2 - gamePanel.getTileSize(), gamePanel.getScreenHeight()/2 - gamePanel.getTileSize());
+        super(0, 0, 10, "down", gamePanel.getScreenWidth()/2 - gamePanel.getTileSize(), gamePanel.getScreenHeight()/2 - gamePanel.getTileSize());
         createHitbox(7, 2, 17, 29);
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
@@ -86,23 +88,31 @@ public class Player extends Entity {
         }
         //Movement for player
         if (keyHandler.up && keyHandler.right) {
-            setWorldY(getWorldY() - (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1 - 2);
-            setWorldX(getWorldX() + (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1 + 2);
+            angle = 315.0;
+            angleInRadians = Math.toRadians(angle);
+            setWorldX(getWorldX() + (int) (Math.cos(angleInRadians) * getSpeed()));
+            setWorldY(getWorldY() + (int) (Math.sin(angleInRadians) * getSpeed()));
             super.setDirection("up");
         }
         else if (keyHandler.up && keyHandler.left) {
-            setWorldY(getWorldY() - (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1 - 2);
-            setWorldX(getWorldX() - (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1 - 2);
+            angle = 225.0;
+            angleInRadians = Math.toRadians(angle);
+            setWorldX(getWorldX() + (int) (Math.cos(angleInRadians) * getSpeed()));
+            setWorldY(getWorldY() + (int) (Math.sin(angleInRadians) * getSpeed()));
             super.setDirection("up");
         }
         else if (keyHandler.down && keyHandler.right) {
-            setWorldY(getWorldY() + (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1);
-            setWorldX(getWorldX() + (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1);
+            angle = 45.0;
+            angleInRadians = Math.toRadians(angle);
+            setWorldX(getWorldX() + (int) (Math.cos(angleInRadians) * getSpeed()));
+            setWorldY(getWorldY() + (int) (Math.sin(angleInRadians) * getSpeed()));
             super.setDirection("down");
         }
         else if (keyHandler.down && keyHandler.left) {
-            setWorldY(getWorldY() + (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1 + 2);
-            setWorldX(getWorldX() - (int) Math.sqrt(2 * Math.pow(getSpeed(), 2)) / 2 + 1 - 2);
+            angle = 135.0;
+            angleInRadians = Math.toRadians(angle);
+            setWorldX(getWorldX() + (int) (Math.cos(angleInRadians) * getSpeed()));
+            setWorldY(getWorldY() + (int) (Math.sin(angleInRadians) * getSpeed()));
             super.setDirection("down");
         }
         else if (keyHandler.up) {

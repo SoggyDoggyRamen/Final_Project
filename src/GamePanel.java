@@ -1,8 +1,5 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 public class GamePanel extends JPanel implements Runnable{
     //screen settings
@@ -26,14 +23,14 @@ public class GamePanel extends JPanel implements Runnable{
     //Player
     Player player = new Player(this, keyHandler);
 
-    //Enemies
-    PickledEgg pickledEgg = new PickledEgg(player, this, 0, 0);
-
     //TileManager
     TileManager tileManager = new TileManager(this, player);
 
     //Projectiles
     Bullets bullets = new Bullets(this, mouseHandler, player, 50, tileManager);
+
+    //Enemies
+    PickledEggHandler pickledEggHandler = new PickledEggHandler(this, player, tileManager, bullets);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -82,7 +79,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void update() {
         player.update();
         bullets.update();
-        pickledEgg.update();
+        pickledEggHandler.update();
     }
 
     public void paintComponent(Graphics g) {
@@ -90,7 +87,7 @@ public class GamePanel extends JPanel implements Runnable{
         Graphics2D g2 = (Graphics2D)g;
         tileManager.draw(g2);
         bullets.draw(g2);
-        pickledEgg.draw(g2);
+        pickledEggHandler.draw(g2);
         player.draw(g2);
     }
 
