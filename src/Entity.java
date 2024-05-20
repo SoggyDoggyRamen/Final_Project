@@ -9,13 +9,14 @@ public class Entity {
     private Rectangle hitbox;
     private int health;
 
-    public Entity(int worldX, int worldY, int speed, String direction, int screenX, int screenY) {
+    public Entity(int worldX, int worldY, int speed, String direction, int screenX, int screenY, int health) {
         this.worldX = worldX;
         this.worldY = worldY;
         this.screenX = screenX;
         this.screenY = screenY;
         this.speed = speed;
         this.direction = direction;
+        this.health = health;
     }
 
     public void createHitbox(int incrementX, int incrementY, int width, int height) {
@@ -168,5 +169,17 @@ public class Entity {
 
     public void setScreenY(int screenY) {
         this.screenY = screenY;
+    }
+
+    public void setHitbox(Rectangle hitbox) {
+        this.hitbox = hitbox;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getHealth() {
+        return health;
     }
 }

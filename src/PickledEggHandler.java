@@ -21,35 +21,35 @@ public class PickledEggHandler {
 
     public void generatePickledEggs(int amt){
         for (int i = 0; i < amt; i ++) {
-            int randomNum = (int) (Math.random() * 1) + 1;
+            int randomNum = (int) (Math.random() * 2) + 1;
             int positiveNeg = 1;
             if (randomNum == 1) {
                 positiveNeg = -1;
             }
             int randomWorldX = positiveNeg * ((int) (Math.random() * 501) + 500) + player.getWorldX();
-            randomNum = (int) (Math.random() * 1) + 1;
+            randomNum = (int) (Math.random() * 2) + 1;
             positiveNeg = 1;
             if (randomNum == 1) {
                 positiveNeg = -1;
             }
             int randomWorldY = positiveNeg * ((int) (Math.random() * 501) + 500) + player.getWorldY();
-            PickledEgg pickledEgg = new PickledEgg(player, gamepanel, randomWorldX, randomWorldY, bullets);
+            PickledEgg pickledEgg = new PickledEgg(player, gamepanel, randomWorldX, randomWorldY);
             pickledEggs.add(pickledEgg);
         }
     }
 
     public void update() {
-        for (PickledEgg pickledEgg: pickledEggs) {
-            if (pickledEgg.getAlive()) {
-                pickledEgg.update();
+        for (int i = 0; i < pickledEggs.size(); i ++) {
+            if (pickledEggs.get(i).getAlive()) {
+                pickledEggs.get(i).update();
             }
-            if (!pickledEgg.getAlive()) {
-                pickledEggs.remove(pickledEgg);
+            if (!pickledEggs.get(i).getAlive()) {
+                pickledEggs.remove(i);
             }
         }
         framesPassed ++;
-        if (framesPassed == 300) {
-            generatePickledEggs(10);
+        if (framesPassed == 120) {
+            generatePickledEggs(20);
             framesPassed = 0;
         }
     }
@@ -60,5 +60,9 @@ public class PickledEggHandler {
                 pickledEgg.draw(g2);
             }
         }
+    }
+
+    public ArrayList<PickledEgg> getPickledEggs() {
+        return pickledEggs;
     }
 }

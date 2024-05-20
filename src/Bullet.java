@@ -18,7 +18,7 @@ public class Bullet extends Entity{
 
 
     public Bullet(GamePanel gamePanel, MouseHandler mouseHandler, TileManager tileManager, Player player) {
-        super(-1000, -1000, 8, "down", 0, 0);
+        super(-1000, -1000, 8, "down", 0, 0,1);
         createHitbox(0, 0, 4, 4);
         shoot = false;
         super.setSpeed(12);
@@ -59,6 +59,10 @@ public class Bullet extends Entity{
         }
     }
 
+    public void gotHit() {
+        super.setHealth(super.getHealth() - 1);
+    }
+
     public void getBulletVelocity(int mouseX, int mouseY) {
         double dx = mouseX - player.getPlayerX();
         double dy = mouseY - player.getPlayerY();
@@ -72,30 +76,36 @@ public class Bullet extends Entity{
         velY = (int) (dy * super.getSpeed());
     }
 
-    public void setShoot(boolean bool) {
+    public void shooting(boolean bool) {
         shoot = bool;
-        PointerInfo a = MouseInfo.getPointerInfo();
-        Point b = a.getLocation();
-        int mouseX = (int) b.getX() - 320;
-        int mouseY = (int) b.getY() - 30;
-        getBulletVelocity(mouseX, mouseY);
-        super.setWorldX(player.getWorldX() + 16);
-        super.setWorldY(player.getWorldY() + 16);
+        super.setHealth(1);
+        if (shoot) {
+            PointerInfo a = MouseInfo.getPointerInfo();
+            Point b = a.getLocation();
+            int mouseX = (int) b.getX() - 320;
+            int mouseY = (int) b.getY() - 30;
+            getBulletVelocity(mouseX, mouseY);
+            super.setWorldX(player.getWorldX() + 16);
+            super.setWorldY(player.getWorldY() + 16);
+        }
     }
 
     public void update() {
-        super.setWorldX(super.getWorldX() + velX);
-        super.setWorldY(super.getWorldY() + velY);
-        setScreenX((super.getWorldX() - player.getWorldX() + player.getPlayerX()));
-        setScreenY((super.getWorldY() - player.getWorldY() + player.getPlayerY()));
-        createHitbox(0, 0, 4, 4);
         if (super.getWorldX() < 0 || super.getWorldX() > tileManager.getMap()[0].length * gamePanel.getTileSize() || super.getWorldY() < 0 || super.getWorldY() > tileManager.getMap().length * gamePanel.getTileSize()) {
+            shoot = false;
+        }
+        if (super.getHealth() < 0 || super.getHealth() == 0) {
             shoot = false;
         }
         if (!shoot) {
             setWorldX(-1000);
             setWorldY(-1000);
         }
+        super.setWorldX(super.getWorldX() + velX);
+        super.setWorldY(super.getWorldY() + velY);
+        setScreenX((super.getWorldX() - player.getWorldX() + player.getPlayerX()));
+        setScreenY((super.getWorldY() - player.getWorldY() + player.getPlayerY()));
+        createHitbox(0, 0, 4, 4);
     }
 
     public void draw(Graphics2D g2) {
@@ -105,5 +115,9 @@ public class Bullet extends Entity{
 
     public boolean getShoot() {
         return shoot;
+    }
+
+    public void setShoot(boolean shoot) {
+        this.shoot = shoot;
     }
 }

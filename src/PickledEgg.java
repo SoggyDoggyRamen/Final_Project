@@ -7,11 +7,11 @@ import java.io.IOException;
 public class PickledEgg extends Entity{
     GamePanel gamePanel;
     Player player;
-    private int zeroCounter, spriteCounter, spriteNum, velX, velY, health;
+    private int zeroCounter, spriteCounter, spriteNum, velX, velY;
     private boolean alive;
 
-    public PickledEgg(Player player, GamePanel gamepanel, int worldX, int worldY, Bullets bullets) {
-        super(worldX, worldY , 7, "down", 0, 0);
+    public PickledEgg(Player player, GamePanel gamepanel, int worldX, int worldY) {
+        super(worldX, worldY , 7, "down", 0, 0, 100);
         createHitbox(6, 1, 19, 29);
         this.gamePanel = gamepanel;
         this.player = player;
@@ -46,6 +46,10 @@ public class PickledEgg extends Entity{
         velY = (int) (dy * super.getSpeed());
     }
 
+    public void gotHit() {
+        super.setHealth(super.getHealth() - 100);
+    }
+
     public void update() {
         //moving to player
         getPickledVelocity();
@@ -57,6 +61,11 @@ public class PickledEgg extends Entity{
 
         //move the hitbox
         createHitbox(6, 1, 19, 29);
+
+        //check if its dead
+        if (super.getHealth() < 0 || super.getHealth() == 0) {
+            alive = false;
+        }
 
         // animations
         spriteCounter ++;
@@ -99,51 +108,15 @@ public class PickledEgg extends Entity{
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
         //Animations for pickle egg
-        if (super.getDirection().equals("up")) {
-            if (spriteNum == 1) {
-                image = super.getUp1();
-            }
-            else if (spriteNum == 2) {
-                image = super.getUp2();
-            }
-            else {
-                image = super.getUp0();
-            }
+        if (spriteNum == 1) {
+            image = super.getDown1();
         }
-        if(super.getDirection().equals("down")) {
-            if (spriteNum == 1) {
-                image = super.getDown1();
-            }
-            else if (spriteNum == 2) {
-                image = super.getDown2();
-            }
-            else {
-                image = super.getDown0();
-            }
+        else if (spriteNum == 2) {
+            image = super.getDown2();
         }
-        if(super.getDirection().equals("right")) {
-            if (spriteNum == 1) {
-                image = super.getRight1();
-            }
-            else if (spriteNum == 2) {
-                image = super.getRight2();
-            }
-            else {
-                image = super.getRight0();
-            }
+        else {
+            image = super.getDown0();
         }
-        if (super.getDirection().equals("left")) {
-            if (spriteNum == 1) {
-                image = super.getLeft1();
-            }
-            else if (spriteNum == 2) {
-                image = super.getLeft2();
-            }
-            else {
-                image = super.getLeft0();
-            }
-        }
-
         g2.draw(getHitbox());
         g2.drawImage(image, getScreenX(), getScreenY(), gamePanel.getTileSize(), gamePanel.getTileSize(), null);
     }

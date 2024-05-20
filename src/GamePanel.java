@@ -32,6 +32,9 @@ public class GamePanel extends JPanel implements Runnable{
     //Enemies
     PickledEggHandler pickledEggHandler = new PickledEggHandler(this, player, tileManager, bullets);
 
+    //Hitbox detector
+    HitboxDetector hitboxDetector = new HitboxDetector(pickledEggHandler.getPickledEggs(), bullets.getBullets(), player);
+
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
@@ -85,6 +88,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
+        hitboxDetector.update();
         tileManager.draw(g2);
         bullets.draw(g2);
         pickledEggHandler.draw(g2);

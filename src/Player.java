@@ -13,7 +13,7 @@ public class Player extends Entity {
     private boolean isRolling;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
-        super(0, 0, 10, "down", gamePanel.getScreenWidth()/2 - gamePanel.getTileSize(), gamePanel.getScreenHeight()/2 - gamePanel.getTileSize());
+        super(0, 0, 10, "down", gamePanel.getScreenWidth()/2 - gamePanel.getTileSize(), gamePanel.getScreenHeight()/2 - gamePanel.getTileSize(), 30);
         createHitbox(7, 2, 17, 29);
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
@@ -42,6 +42,10 @@ public class Player extends Entity {
         catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void gotHit() {
+        super.setHealth(super.getHealth() - 10);
     }
 
     public void update() {
@@ -131,7 +135,7 @@ public class Player extends Entity {
             setWorldX(getWorldX() - getSpeed());
             super.setDirection("left");
         }
-
+        System.out.println(super.getHealth());
     }
 
     public void draw(Graphics2D g2) {

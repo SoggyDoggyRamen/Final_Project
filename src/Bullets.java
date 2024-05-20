@@ -28,7 +28,7 @@ public class Bullets {
                 if (bulletNum == num - 1) {
                     bulletNum = 0;
                 }
-                bullets[bulletNum].setShoot(true);
+                bullets[bulletNum].shooting(true);
                 bulletNum ++;
                 startTime = System.currentTimeMillis();
                 timePassed = 0;
@@ -53,5 +53,9 @@ public class Bullets {
                 bullet.draw(g2);
             }
         }
+    }
+
+    public Bullet[] getBullets() {
+        return bullets;
     }
 }
