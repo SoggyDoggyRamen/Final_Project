@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Bullets {
+public class BulletHandler {
     private Bullet[] bullets;
     private int bulletNum;
     private int num;
@@ -9,7 +9,7 @@ public class Bullets {
     private long timePassed;
     private long startTime;
 
-    public Bullets(GamePanel gamePanel, MouseHandler mouseHandler, Player player, int num, TileManager tileManager) {
+    public BulletHandler(GamePanel gamePanel, MouseHandler mouseHandler, Player player, int num, TileManager tileManager) {
         bullets = new Bullet[num];
         for (int i = 0; i < num; i ++) {
             Bullet bullet = new Bullet(gamePanel, mouseHandler, tileManager, player);
@@ -23,22 +23,17 @@ public class Bullets {
     }
 
     public void update() {
-        if (mouseHandler.mouse1Down) {
-            if (timePassed > 124) {
-                if (bulletNum == num - 1) {
-                    bulletNum = 0;
-                }
-                bullets[bulletNum].shooting(true);
-                bulletNum ++;
-                startTime = System.currentTimeMillis();
-                timePassed = 0;
+        if (mouseHandler.mouse1Down && timePassed > 124) {
+            if (bulletNum == num - 1) {
+                bulletNum = 0;
             }
-            else {
-                timePassed = System.currentTimeMillis() - startTime;
-            }
+            bullets[bulletNum].shooting(true);
+            bulletNum ++;
+            startTime = System.currentTimeMillis();
+            timePassed = 0;
         }
         else {
-            timePassed = 500;
+            timePassed = System.currentTimeMillis() - startTime;
         }
         for (Bullet bullet: bullets) {
             if (bullet.getShoot()) {

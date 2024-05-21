@@ -6,24 +6,18 @@ import java.io.IOException;
 
 public class Bullet extends Entity{
     private GamePanel gamePanel;
-    private MouseHandler mouseHandler;
     private TileManager tileManager;
     private Player player;
     private boolean shoot;
     private String upDown, leftRight;
     private int velX, velY;
     private Image bulletImage;
-    private long startTime;
-    private long timePassed;
-
 
     public Bullet(GamePanel gamePanel, MouseHandler mouseHandler, TileManager tileManager, Player player) {
-        super(-1000, -1000, 8, "down", 0, 0,1);
+        super(-1000, -1000, 10, "down", 0, 0,1);
         createHitbox(0, 0, 4, 4);
         shoot = false;
         super.setSpeed(12);
-        timePassed = 1000000001;
-        this.mouseHandler = mouseHandler;
         this.gamePanel = gamePanel;
         this.player = player;
         this.tileManager = tileManager;
@@ -109,7 +103,6 @@ public class Bullet extends Entity{
     }
 
     public void draw(Graphics2D g2) {
-        g2.draw(getHitbox());
         g2.drawImage(bulletImage, getScreenX(), getScreenY(), gamePanel.getTileSize(), gamePanel.getTileSize(), null);
     }
 

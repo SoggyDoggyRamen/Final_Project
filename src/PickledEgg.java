@@ -7,8 +7,9 @@ import java.io.IOException;
 public class PickledEgg extends Entity{
     GamePanel gamePanel;
     Player player;
-    private int zeroCounter, spriteCounter, spriteNum, velX, velY;
+    private int zeroCounter, spriteCounter, spriteNum, velX, velY, redLineWorldX, redLineWorldY, redLineScreenX, redLineScreenY, redVelX, redVelY;
     private boolean alive;
+    Image redImage;
 
     public PickledEgg(Player player, GamePanel gamepanel, int worldX, int worldY) {
         super(worldX, worldY , 7, "down", 0, 0, 100);
@@ -27,6 +28,7 @@ public class PickledEgg extends Entity{
             super.setDown0(ImageIO.read(new File("Images/Pickled_Egg/down0.png")));
             super.setDown1(ImageIO.read(new File("Images/Pickled_Egg/down1.png")));
             super.setDown2(ImageIO.read(new File("Images/Pickled_Egg/down2.png")));
+            redImage = ImageIO.read(new File("Images/Projectiles/redLine.png"));
         }
         catch (IOException e) {
             throw new RuntimeException(e);
@@ -42,6 +44,8 @@ public class PickledEgg extends Entity{
         dx /= length;
         dy /= length;
 
+        redVelX = (int) (dx * 32);
+        redVelY = (int) (dy * 32);
         velX = (int) (dx * super.getSpeed());
         velY = (int) (dy * super.getSpeed());
     }
@@ -53,7 +57,6 @@ public class PickledEgg extends Entity{
     public void update() {
         //moving to player
         getPickledVelocity();
-        System.out.println("hi");
         super.setWorldX(super.getWorldX() + velX);
         super.setWorldY(super.getWorldY() + velY);
         setScreenX((super.getWorldX() - player.getWorldX() + player.getPlayerX()));
@@ -103,10 +106,25 @@ public class PickledEgg extends Entity{
             }
             spriteCounter = 0;
         }
+
+        redLineWorldX = super.getWorldX() + 32;
+        redLineWorldY = super.getWorldY() + 32;
+    }
+
+    public void updateRedLine() {
+        redLineWorldX = redLineWorldX + redVelX;
+        redLineWorldY = redLineWorldY + redVelY;
+        redLineScreenX = redLineWorldX - player.getWorldX() + player.getPlayerX();
+        redLineScreenY = redLineWorldY - player.getWorldY() + player.getPlayerY();
     }
 
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
+        //red line indicator
+        for (int i = 0; i < 50; i ++) {
+            updateRedLine();
+            g2.drawImage(redImage, redLineScreenX, redLineScreenY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+        }
         //Animations for pickle egg
         if (spriteNum == 1) {
             image = super.getDown1();
@@ -117,7 +135,6 @@ public class PickledEgg extends Entity{
         else {
             image = super.getDown0();
         }
-        g2.draw(getHitbox());
         g2.drawImage(image, getScreenX(), getScreenY(), gamePanel.getTileSize(), gamePanel.getTileSize(), null);
     }
 

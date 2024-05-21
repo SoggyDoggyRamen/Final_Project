@@ -7,7 +7,7 @@ import java.io.IOException;
 public class Player extends Entity {
     GamePanel gamePanel;
     KeyHandler keyHandler;
-    private int zeroCounter, spriteCounter, spriteNum;
+    private int zeroCounter, spriteCounter, spriteNum, sideSpriteNum;
     private double angle;
     private double angleInRadians;
     private boolean isRolling;
@@ -54,23 +54,23 @@ public class Player extends Entity {
             spriteCounter ++;
             if (spriteCounter == 10) {
                 if (super.getDirection().equals("right") || super.getDirection().equals("left")) {
-                    if (spriteNum == 0) {
+                    if (sideSpriteNum == 0) {
                         if (zeroCounter == 1) {
                             zeroCounter = 0;
-                            spriteNum = 2;
+                            sideSpriteNum = 2;
                         }
                         else {
-                            spriteNum = 1;
+                            sideSpriteNum = 1;
                         }
                     }
-                    else if (spriteNum == 1) {
+                    else if (sideSpriteNum == 1) {
                         if (zeroCounter == 0) {
                             zeroCounter ++;
-                            spriteNum = 0;
+                            sideSpriteNum = 0;
                         }
                     }
-                    else if (spriteNum == 2) {
-                        spriteNum = 0;
+                    else if (sideSpriteNum == 2) {
+                        sideSpriteNum = 0;
                     }
                 }
                 else {
@@ -89,6 +89,7 @@ public class Player extends Entity {
         }
         else {
             spriteNum = 0;
+            sideSpriteNum = 0;
         }
         //Movement for player
         if (keyHandler.up && keyHandler.right) {
@@ -164,10 +165,10 @@ public class Player extends Entity {
             }
         }
         if(super.getDirection().equals("right")) {
-            if (spriteNum == 1) {
+            if (sideSpriteNum == 1) {
                 image = super.getRight1();
             }
-            else if (spriteNum == 2) {
+            else if (sideSpriteNum == 2) {
                 image = super.getRight2();
             }
             else {
@@ -175,10 +176,10 @@ public class Player extends Entity {
             }
         }
         if (super.getDirection().equals("left")) {
-            if (spriteNum == 1) {
+            if (sideSpriteNum == 1) {
                 image = super.getLeft1();
             }
-            else if (spriteNum == 2) {
+            else if (sideSpriteNum == 2) {
                 image = super.getLeft2();
             }
             else {
@@ -186,7 +187,6 @@ public class Player extends Entity {
             }
         }
 
-        g2.draw(getHitbox());
         g2.drawImage(image, super.getScreenX(), getScreenY(), gamePanel.getTileSize(), gamePanel.getTileSize(), null);
     }
 

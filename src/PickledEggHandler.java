@@ -5,18 +5,18 @@ public class PickledEggHandler {
     private GamePanel gamepanel;
     private Player player;
     private TileManager tileManager;
-    private Bullets bullets;
+    private BulletHandler bulletHandler;
     private ArrayList<PickledEgg> pickledEggs;
     private int framesPassed;
 
-    public PickledEggHandler(GamePanel gamePanel, Player player, TileManager tileManager, Bullets bullets) {
+    public PickledEggHandler(GamePanel gamePanel, Player player, TileManager tileManager, BulletHandler bulletHandler) {
         this.gamepanel = gamePanel;
         this.player = player;
         this.tileManager = tileManager;
         this.pickledEggs = new ArrayList<PickledEgg>();
-        this.bullets = bullets;
+        this.bulletHandler = bulletHandler;
         framesPassed = 0;
-        generatePickledEggs(10);
+        generatePickledEggs(5);
     }
 
     public void generatePickledEggs(int amt){
@@ -49,7 +49,7 @@ public class PickledEggHandler {
         }
         framesPassed ++;
         if (framesPassed == 120) {
-            generatePickledEggs(20);
+            generatePickledEggs(0);
             framesPassed = 0;
         }
     }
