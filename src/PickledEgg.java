@@ -7,7 +7,7 @@ import java.io.IOException;
 public class PickledEgg extends Entity{
     GamePanel gamePanel;
     Player player;
-    private int zeroCounter, spriteCounter, spriteNum, velX, velY, redLineWorldX, redLineWorldY, redLineScreenX, redLineScreenY, redVelX, redVelY;
+    private int zeroCounter, spriteCounter, spriteNum, velX, velY;
     private boolean alive;
     Image redImage;
 
@@ -44,8 +44,6 @@ public class PickledEgg extends Entity{
         dx /= length;
         dy /= length;
 
-        redVelX = (int) (dx * 32);
-        redVelY = (int) (dy * 32);
         velX = (int) (dx * super.getSpeed());
         velY = (int) (dy * super.getSpeed());
     }
@@ -71,60 +69,44 @@ public class PickledEgg extends Entity{
         }
 
         // animations
-        spriteCounter ++;
+        spriteCounter++;
         if (spriteCounter == 10) {
             if (super.getDirection().equals("right") || super.getDirection().equals("left")) {
                 if (spriteNum == 0) {
                     if (zeroCounter == 1) {
                         zeroCounter = 0;
                         spriteNum = 2;
-                    }
-                    else {
+                    } else {
                         spriteNum = 1;
                     }
-                }
-                else if (spriteNum == 1) {
+                } else if (spriteNum == 1) {
                     if (zeroCounter == 0) {
-                        zeroCounter ++;
+                        zeroCounter++;
                         spriteNum = 0;
                     }
-                }
-                else if (spriteNum == 2) {
+                } else if (spriteNum == 2) {
                     spriteNum = 0;
                 }
-            }
-            else {
+            } else {
                 if (spriteNum == 0) {
                     spriteNum = 1;
-                }
-                else if (spriteNum == 1) {
+                } else if (spriteNum == 1) {
                     spriteNum = 2;
-                }
-                else if (spriteNum == 2) {
+                } else if (spriteNum == 2) {
                     spriteNum = 1;
                 }
             }
             spriteCounter = 0;
         }
-
-        redLineWorldX = super.getWorldX() + 32;
-        redLineWorldY = super.getWorldY() + 32;
-    }
-
-    public void updateRedLine() {
-        redLineWorldX = redLineWorldX + redVelX;
-        redLineWorldY = redLineWorldY + redVelY;
-        redLineScreenX = redLineWorldX - player.getWorldX() + player.getPlayerX();
-        redLineScreenY = redLineWorldY - player.getWorldY() + player.getPlayerY();
     }
 
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
         //red line indicator
-        for (int i = 0; i < 50; i ++) {
-            updateRedLine();
-            g2.drawImage(redImage, redLineScreenX, redLineScreenY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
-        }
+        g2.setStroke(new BasicStroke(3));
+        g2.setColor(Color.RED);
+        g2.drawLine(getScreenX() + 32, getScreenY() + 32, player.getPlayerX() + 32, player.getPlayerY() + 32);
+
         //Animations for pickle egg
         if (spriteNum == 1) {
             image = super.getDown1();
