@@ -105,7 +105,19 @@ public class PickledEgg extends Entity{
         //red line indicator
         g2.setStroke(new BasicStroke(3));
         g2.setColor(Color.RED);
-        g2.drawLine(getScreenX() + 32, getScreenY() + 32, player.getPlayerX() + 32, player.getPlayerY() + 32);
+        int x1 = getScreenX();
+        int y1 = getScreenY();
+        int x2 = player.getScreenX();
+        int y2 = player.getScreenY();
+        for (int i = 0; i < 5; i ++) {
+            g2.drawLine(x1 + 32, y1 + 32, x2 + 32, y2 + 32);
+            int temp1 = x2;
+            int temp2 = y2;
+            x2 = x2 - (x1 - x2);
+            y2 = y2 - (y1 - y2);
+            x1 = temp1;
+            y1 = temp2;
+        }
 
         //Animations for pickle egg
         if (spriteNum == 1) {

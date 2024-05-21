@@ -16,7 +16,7 @@ public class PickledEggHandler {
         this.pickledEggs = new ArrayList<PickledEgg>();
         this.bulletHandler = bulletHandler;
         framesPassed = 0;
-        generatePickledEggs(5);
+        generatePickledEggs(10);
     }
 
     public void generatePickledEggs(int amt){
@@ -49,7 +49,7 @@ public class PickledEggHandler {
         }
         framesPassed ++;
         if (framesPassed == 120) {
-            generatePickledEggs(0);
+            generatePickledEggs(10);
             framesPassed = 0;
         }
     }
