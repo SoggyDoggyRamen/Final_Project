@@ -35,7 +35,7 @@ public class PickledEggHandler {
             int randomWorldY = positiveNeg * ((int) (Math.random() * 501) + 500) + player.getWorldY();
             PickledEgg pickledEgg = new PickledEgg(player, gamepanel, randomWorldX, randomWorldY);
             randomNum = (int) (Math.random() * 20) + 1;
-            if (randomNum <= 5) {
+            if (randomNum <= 1) {
                 pickledEgg.setRanged(true);
             }
             pickledEggs.add(pickledEgg);

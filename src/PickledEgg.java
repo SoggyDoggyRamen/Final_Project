@@ -7,9 +7,9 @@ import java.io.IOException;
 public class PickledEgg extends Entity{
     GamePanel gamePanel;
     Player player;
-    private int zeroCounter, spriteCounter, spriteNum, velX, velY;
+    private int zeroCounter, spriteCounter, spriteNum, velX, velY, lineX1, lineY1, lineX2, lineY2, framesPassed, linewx1, linewy1, linewx2, linewy2;
     private boolean alive;
-    private boolean ranged;
+    private boolean ranged, redLine, laser;
     Image redImage;
 
     public PickledEgg(Player player, GamePanel gamepanel, int worldX, int worldY) {
@@ -20,6 +20,9 @@ public class PickledEgg extends Entity{
         zeroCounter = 0;
         spriteNum = 0;
         spriteCounter = 0;
+        framesPassed = 0;
+        redLine = true;
+        laser = false;
         alive = true;
         ranged = false;
         getPickledEggImage();
@@ -63,8 +66,8 @@ public class PickledEgg extends Entity{
         getPickledVelocity();
         super.setWorldX(super.getWorldX() + velX);
         super.setWorldY(super.getWorldY() + velY);
-        setScreenX((super.getWorldX() - player.getWorldX() + player.getPlayerX()));
-        setScreenY((super.getWorldY() - player.getWorldY() + player.getPlayerY()));
+        setScreenX((super.getWorldX() - player.getWorldX() + player.getScreenX()));
+        setScreenY((super.getWorldY() - player.getWorldY() + player.getScreenY()));
 
         //move the hitbox
         createHitbox(6, 1, 19, 29);
@@ -106,26 +109,78 @@ public class PickledEgg extends Entity{
         }
     }
 
-    public void draw(Graphics2D g2) {
-        BufferedImage image = null;
-        //red line indicator
+    public void drawRedLine(Graphics2D g2) {
         g2.setStroke(new BasicStroke(3));
-        g2.setColor(Color.RED);
+        Color c = new Color(1f,0f,0f,.3f );
+        g2.setColor(c);
         int x1 = getScreenX();
         int y1 = getScreenY();
         int x2 = player.getScreenX();
         int y2 = player.getScreenY();
-        if (ranged) {
-            for (int i = 0; i < 5; i ++) {
-                g2.drawLine(x1 + 32, y1 + 32, x2 + 32, y2 + 32);
-                int temp1 = x2;
-                int temp2 = y2;
-                x2 = x2 - (x1 - x2);
-                y2 = y2 - (y1 - y2);
-                x1 = temp1;
-                y1 = temp2;
-            }
+        lineX1 = x1 + 32;
+        lineY1 = y1 + 32;
+        for (int i = 0; i < 5; i ++) {
+            g2.drawLine(x1 + 32, y1 + 32, x2 + 32, y2 + 32);
+            int temp1 = x2;
+            int temp2 = y2;
+            x2 = x2 - (x1 - x2);
+            y2 = y2 - (y1 - y2);
+            x1 = temp1;
+            y1 = temp2;
+        }
+        lineX2 = x2 + 32;
+        lineY2 = y2 + 32;
+    }
 
+    public void drawStillLine(Graphics2D g2) {
+        g2.setStroke(new BasicStroke(3));
+        Color c = new Color(1f,0f,0f,.3f );
+        g2.setColor(c);
+        g2.drawLine(linewx1 - player.getWorldX() + player.getScreenX(), linewy1 - player.getWorldY() + player.getScreenY(), linewx2 - player.getWorldX() + player.getScreenX(), linewy2 - player.getWorldY() + player.getScreenY());
+    }
+    public void drawLaser(Graphics2D g2) {
+        g2.setStroke(new BasicStroke(4));
+        g2.setColor(Color.RED);
+
+        g2.drawLine(linewx1 - player.getWorldX() + player.getScreenX(), linewy1 - player.getWorldY() + player.getScreenY(), linewx2 - player.getWorldX() + player.getScreenX(), linewy2 - player.getWorldY() + player.getScreenY());
+    }
+
+    public void convertToWorldCoordinates() {
+        linewx1 = lineX1 + player.getWorldX() - player.getScreenX();
+        linewx2 = lineX2 + player.getWorldX() - player.getScreenX();
+        linewy1 = lineY1 + player.getWorldY() - player.getScreenY();
+        linewy2 = lineY2 + player.getWorldY() - player.getScreenY();
+    }
+    public void draw(Graphics2D g2) {
+        BufferedImage image = null;
+        //red line indicator
+        g2.setStroke(new BasicStroke(3));
+        Color c = new Color(1f,0f,0f,.3f );
+        if (ranged) {
+            System.out.println(framesPassed);
+            if (framesPassed >= 30 && framesPassed <= 150 && redLine) {
+                if (framesPassed >= 30 && framesPassed <= 120) {
+                    drawRedLine(g2);
+                    convertToWorldCoordinates();
+                }
+                if (framesPassed > 120) {
+                    drawStillLine(g2);
+                }
+                if (framesPassed == 150) {
+                    framesPassed = 0;
+                    redLine = false;
+                    laser = true;
+                }
+            }
+            if (laser) {
+                drawLaser(g2);
+                if (framesPassed == 45) {
+                    laser = false;
+                    redLine = true;
+                    framesPassed = 0;
+                }
+            }
+            framesPassed ++;
         }
 
         //Animations for pickle egg
