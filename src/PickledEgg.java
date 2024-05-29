@@ -30,7 +30,7 @@ public class PickledEgg extends Entity{
 
     public void getPickledEggImage() {
         try {
-            super.setDown0(ImageIO.read(new File("Images/Pickled_Egg/down0.png")));
+            super.setDown0(ImageIO.read(new File("Images/Enemies/Pickled_Egg/down0.png")));
             super.setDown1(ImageIO.read(new File("Images/Pickled_Egg/down1.png")));
             super.setDown2(ImageIO.read(new File("Images/Pickled_Egg/down2.png")));
             redImage = ImageIO.read(new File("Images/Projectiles/redLine.png"));
