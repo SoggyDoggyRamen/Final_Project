@@ -8,8 +8,9 @@ public class Entity {
     private String direction;
     private Rectangle hitbox;
     private int health;
+    private boolean alive;
 
-    public Entity(int worldX, int worldY, int speed, String direction, int screenX, int screenY, int health) {
+    public Entity(int worldX, int worldY, int speed, String direction, int screenX, int screenY, int health, boolean alive) {
         this.worldX = worldX;
         this.worldY = worldY;
         this.screenX = screenX;
@@ -17,6 +18,7 @@ public class Entity {
         this.speed = speed;
         this.direction = direction;
         this.health = health;
+        this.alive = alive;
     }
 
     public void createHitbox(int incrementX, int incrementY, int width, int height) {
@@ -181,5 +183,13 @@ public class Entity {
 
     public int getHealth() {
         return health;
+    }
+
+    public boolean getAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 }

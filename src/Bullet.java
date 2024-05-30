@@ -14,7 +14,7 @@ public class Bullet extends Entity{
     private Image bulletImage;
 
     public Bullet(GamePanel gamePanel, MouseHandler mouseHandler, TileManager tileManager, Player player) {
-        super(-1000, -1000, 10, "down", 0, 0,1);
+        super(-1000, -1000, 10, "down", 0, 0,1, true);
         createHitbox(0, 0, 4, 4);
         shoot = false;
         super.setSpeed(12);

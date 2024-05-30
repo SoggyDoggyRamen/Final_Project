@@ -7,6 +7,7 @@ public class PickledEggHandler {
     private TileManager tileManager;
     private BulletHandler bulletHandler;
     private ArrayList<PickledEgg> pickledEggs;
+    private A
     private int framesPassed;
 
     public PickledEggHandler(GamePanel gamePanel, Player player, TileManager tileManager, BulletHandler bulletHandler) {
@@ -33,12 +34,19 @@ public class PickledEggHandler {
                 positiveNeg = -1;
             }
             int randomWorldY = positiveNeg * ((int) (Math.random() * 501) + 500) + player.getWorldY();
-            PickledEgg pickledEgg = new PickledEgg(player, gamepanel, randomWorldX, randomWorldY);
             randomNum = (int) (Math.random() * 20) + 1;
             if (randomNum <= 1) {
-                pickledEgg.setRanged(true);
+                Drone drone1 = new Drone(randomWorldX, randomWorldY - 30, gamepanel, player);
+                Drone drone2 = new Drone(randomWorldX + 30, randomWorldY + 30, gamepanel, player);
+                Drone drone3 = new Drone(randomWorldX - 30, randomWorldY + 30, gamepanel, player);
+                pickledEggs.add(drone1);
+                pickledEggs.add(drone2);
+                pickledEggs.add(drone3);
             }
-            pickledEggs.add(pickledEgg);
+            else {
+                PickledEgg pickledEgg = new PickledEgg(randomWorldX, randomWorldY, gamepanel, player);
+                pickledEggs.add(pickledEgg);
+            }
         }
     }
 
