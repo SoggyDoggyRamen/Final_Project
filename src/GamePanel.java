@@ -33,7 +33,7 @@ public class GamePanel extends JPanel implements Runnable{
     PickledEggHandler pickledEggHandler = new PickledEggHandler(this, player, tileManager, bulletHandler);
 
     //Hitbox detector
-    HitboxDetector hitboxDetector = new HitboxDetector(pickledEggHandler.getPickledEggs(), bulletHandler.getBullets(), player);
+    HitboxDetector hitboxDetector = new HitboxDetector(pickledEggHandler.getPickledEggs(), bulletHandler.getBullets(), player, pickledEggHandler.getDrones());
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));

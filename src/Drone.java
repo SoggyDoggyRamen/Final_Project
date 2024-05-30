@@ -13,15 +13,21 @@ public class Drone extends Enemy{
         createHitbox(10, 9, 11, 13);
         this.gamePanel = gamePanel;
         this.player = player;
+        framesPassed = 0;
         redLineFrameStart = 30;
         redLineFrameEnd = 150;
         stillLineFrameStart = 120;
         zeroCounter = 0;
         spriteNum = 0;
         spriteCounter = 0;
+        indicator = true;
         drawIndicator = false;
         drawLaser = false;
         getDroneImage();
+    }
+
+    public void gotHit() {
+        setHealth(getHealth() - 50);
     }
 
     public void getDroneImage() {
@@ -109,6 +115,7 @@ public class Drone extends Enemy{
 
         // indicator and laser stuff
         if (framesPassed >= redLineFrameStart && framesPassed <= redLineFrameEnd && indicator) {
+            drawLaser = false;
             if (framesPassed <= stillLineFrameStart) {
                 drawIndicator = true;
                 convertToWorldCoordinates();
@@ -120,6 +127,7 @@ public class Drone extends Enemy{
             if (framesPassed == redLineFrameEnd) {
                 framesPassed = 0;
                 indicator = false;
+                drawStillIndicator = false;
                 laser = true;
             }
         }
@@ -139,20 +147,12 @@ public class Drone extends Enemy{
 
         //red line indicator stuff
         if (drawIndicator) {
-            g2.setStroke(new BasicStroke(3));
-            Color c = new Color(1f,0f,0f,.3f );
-            g2.setColor(c);
             drawIndicator(g2);
         }
-        if (drawStillIndicator) {
-            g2.setStroke(new BasicStroke(3));
-            Color c = new Color(1f,0f,0f,.3f );
-            g2.setColor(c);
+        else if (drawStillIndicator) {
             drawStillIndicator(g2);
         }
-        if (drawLaser) {
-            g2.setStroke(new BasicStroke(5));
-            g2.setColor(Color.RED);
+        else if (drawLaser) {
             drawLaser(g2);
         }
 

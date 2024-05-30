@@ -7,7 +7,7 @@ public class PickledEggHandler {
     private TileManager tileManager;
     private BulletHandler bulletHandler;
     private ArrayList<PickledEgg> pickledEggs;
-    private A
+    private ArrayList<Drone> drones;
     private int framesPassed;
 
     public PickledEggHandler(GamePanel gamePanel, Player player, TileManager tileManager, BulletHandler bulletHandler) {
@@ -15,6 +15,7 @@ public class PickledEggHandler {
         this.player = player;
         this.tileManager = tileManager;
         this.pickledEggs = new ArrayList<PickledEgg>();
+        this.drones = new ArrayList<Drone>();
         this.bulletHandler = bulletHandler;
         framesPassed = 0;
         generatePickledEggs(10);
@@ -39,9 +40,9 @@ public class PickledEggHandler {
                 Drone drone1 = new Drone(randomWorldX, randomWorldY - 30, gamepanel, player);
                 Drone drone2 = new Drone(randomWorldX + 30, randomWorldY + 30, gamepanel, player);
                 Drone drone3 = new Drone(randomWorldX - 30, randomWorldY + 30, gamepanel, player);
-                pickledEggs.add(drone1);
-                pickledEggs.add(drone2);
-                pickledEggs.add(drone3);
+                drones.add(drone1);
+                drones.add(drone2);
+                drones.add(drone3);
             }
             else {
                 PickledEgg pickledEgg = new PickledEgg(randomWorldX, randomWorldY, gamepanel, player);
@@ -59,6 +60,14 @@ public class PickledEggHandler {
                 pickledEggs.remove(i);
             }
         }
+        for (int i = 0; i < drones.size(); i ++) {
+            if (drones.get(i).getAlive()) {
+                drones.get(i).update();
+            }
+            if (!drones.get(i).getAlive()) {
+                drones.remove(i);
+            }
+        }
         framesPassed ++;
         if (framesPassed == 120) {
             generatePickledEggs(10);
@@ -72,9 +81,18 @@ public class PickledEggHandler {
                 pickledEgg.draw(g2);
             }
         }
+        for (Drone drone: drones) {
+            if (drone.getAlive()) {
+                drone.draw(g2);
+            }
+        }
     }
 
     public ArrayList<PickledEgg> getPickledEggs() {
         return pickledEggs;
+    }
+
+    public ArrayList<Drone> getDrones() {
+        return drones;
     }
 }
