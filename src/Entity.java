@@ -19,11 +19,11 @@ public class Entity {
         this.direction = direction;
         this.health = health;
         this.alive = alive;
+        hitbox = new Rectangle();
     }
 
-    public void createHitbox(int incrementX, int incrementY, int width, int height) {
-        hitbox = new Rectangle();
-        hitbox.setBounds(screenX + incrementX * 2, screenY + incrementY * 2, width * 2, height * 2);
+    public void moveHitbox(int incrementX, int incrementY, int width, int height, int x, int y) {
+        hitbox.setBounds(x + incrementX * 2, y + incrementY * 2, width * 2, height * 2);
     }
 
     public Rectangle getHitbox() {

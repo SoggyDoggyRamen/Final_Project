@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.util.ArrayList;
 
-public class PickledEggHandler {
+public class EnemyHandler {
     private GamePanel gamepanel;
     private Player player;
     private TileManager tileManager;
@@ -10,7 +10,7 @@ public class PickledEggHandler {
     private ArrayList<Drone> drones;
     private int framesPassed;
 
-    public PickledEggHandler(GamePanel gamePanel, Player player, TileManager tileManager, BulletHandler bulletHandler) {
+    public EnemyHandler(GamePanel gamePanel, Player player, TileManager tileManager, BulletHandler bulletHandler) {
         this.gamepanel = gamePanel;
         this.player = player;
         this.tileManager = tileManager;
@@ -18,10 +18,10 @@ public class PickledEggHandler {
         this.drones = new ArrayList<Drone>();
         this.bulletHandler = bulletHandler;
         framesPassed = 0;
-        generatePickledEggs(10);
+        generateEnemies(10);
     }
 
-    public void generatePickledEggs(int amt){
+    public void generateEnemies(int amt){
         for (int i = 0; i < amt; i ++) {
             int randomNum = (int) (Math.random() * 2) + 1;
             int positiveNeg = 1;
@@ -37,15 +37,15 @@ public class PickledEggHandler {
             int randomWorldY = positiveNeg * ((int) (Math.random() * 501) + 500) + player.getWorldY();
             randomNum = (int) (Math.random() * 20) + 1;
             if (randomNum <= 1) {
-                Drone drone1 = new Drone(randomWorldX, randomWorldY - 30, gamepanel, player);
-                Drone drone2 = new Drone(randomWorldX + 30, randomWorldY + 30, gamepanel, player);
-                Drone drone3 = new Drone(randomWorldX - 30, randomWorldY + 30, gamepanel, player);
+                Drone drone1 = new Drone(randomWorldX, randomWorldY - 30, gamepanel, player, pickledEggs, drones);
+                Drone drone2 = new Drone(randomWorldX + 30, randomWorldY + 30, gamepanel, player, pickledEggs, drones);
+                Drone drone3 = new Drone(randomWorldX - 30, randomWorldY + 30, gamepanel, player, pickledEggs, drones);
                 drones.add(drone1);
                 drones.add(drone2);
                 drones.add(drone3);
             }
             else {
-                PickledEgg pickledEgg = new PickledEgg(randomWorldX, randomWorldY, gamepanel, player);
+                PickledEgg pickledEgg = new PickledEgg(randomWorldX, randomWorldY, gamepanel, player, pickledEggs, drones);
                 pickledEggs.add(pickledEgg);
             }
         }
@@ -70,7 +70,7 @@ public class PickledEggHandler {
         }
         framesPassed ++;
         if (framesPassed == 120) {
-            generatePickledEggs(10);
+            generateEnemies(10);
             framesPassed = 0;
         }
     }

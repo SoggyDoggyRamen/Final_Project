@@ -30,10 +30,10 @@ public class GamePanel extends JPanel implements Runnable{
     BulletHandler bulletHandler = new BulletHandler(this, mouseHandler, player, 50, tileManager);
 
     //Enemies
-    PickledEggHandler pickledEggHandler = new PickledEggHandler(this, player, tileManager, bulletHandler);
+    EnemyHandler enemyHandler = new EnemyHandler(this, player, tileManager, bulletHandler);
 
     //Hitbox detector
-    HitboxDetector hitboxDetector = new HitboxDetector(pickledEggHandler.getPickledEggs(), bulletHandler.getBullets(), player, pickledEggHandler.getDrones());
+    HitboxDetector hitboxDetector = new HitboxDetector(enemyHandler.getPickledEggs(), bulletHandler.getBullets(), player, enemyHandler.getDrones());
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -82,7 +82,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void update() {
         player.update();
         bulletHandler.update();
-        pickledEggHandler.update();
+        enemyHandler.update();
     }
 
     public void paintComponent(Graphics g) {
@@ -91,7 +91,7 @@ public class GamePanel extends JPanel implements Runnable{
         hitboxDetector.update();
         tileManager.draw(g2);
         bulletHandler.draw(g2);
-        pickledEggHandler.draw(g2);
+        enemyHandler.draw(g2);
         player.draw(g2);
     }
 

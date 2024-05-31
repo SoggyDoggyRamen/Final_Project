@@ -2,17 +2,21 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Drone extends Enemy{
     private int zeroCounter, spriteCounter, spriteNum, lineX1, lineY1, lineX2, lineY2, framesPassed, linewx1, linewy1, linewx2, linewy2;
     private int redLineFrameStart, redLineFrameEnd, stillLineFrameStart, laserFrameEnd;
     private boolean indicator, laser, drawIndicator, drawLaser, drawStillIndicator;
+    private ArrayList<PickledEgg> pickledEggs;
+    private ArrayList<Drone> drones;
 
-    public Drone(int worldX, int worldY, GamePanel gamePanel, Player player) {
+    public Drone(int worldX, int worldY, GamePanel gamePanel, Player player, ArrayList<PickledEgg> pickledEggs, ArrayList<Drone> drones) {
         super(worldX, worldY , 5, 100, player, true);
-        createHitbox(10, 9, 11, 13);
         this.gamePanel = gamePanel;
         this.player = player;
+        this.pickledEggs = pickledEggs;
+        this.drones =drones;
         framesPassed = 0;
         redLineFrameStart = 30;
         redLineFrameEnd = 150;
@@ -87,13 +91,29 @@ public class Drone extends Enemy{
     public void update() {
         //moving to player
         int[] velocity = getEnemyVelocity();
-        super.setWorldX(super.getWorldX() + velocity[0]);
-        super.setWorldY(super.getWorldY() + velocity[1]);
-        setScreenX((super.getWorldX() - player.getWorldX() + player.getScreenX()));
-        setScreenY((super.getWorldY() - player.getWorldY() + player.getScreenY()));
+        int tempWx = super.getWorldX() + velocity[0];
+        int tempWy = super.getWorldY() + velocity[1];
+        moveHitbox(10, 9, 11, 13, tempWx - player.getWorldX() + player.getScreenX(), tempWy - player.getWorldY() + player.getScreenY());
+        boolean intersects = false;
+        for (int i = 0; i < pickledEggs.size(); i ++) {
+            if (getHitbox().intersects(pickledEggs.get(i).getHitbox())) {
+                intersects = true;
+            }
+        }
+        for (int i = 0; i < drones.size(); i ++) {
+            if (getHitbox().intersects(drones.get(i).getHitbox())) {
+                intersects = true;
+            }
+        }
+        if (!intersects) {
+            super.setWorldX(super.getWorldX() + velocity[0]);
+            super.setWorldY(super.getWorldY() + velocity[1]);
+            setScreenX((super.getWorldX() - player.getWorldX() + player.getScreenX()));
+            setScreenY((super.getWorldY() - player.getWorldY() + player.getScreenY()));
+        }
 
         //move the hitbox
-        createHitbox(10, 9, 11, 13);
+        moveHitbox(10, 9, 11, 13, getScreenX(), getScreenY());
 
         //check if its dead
         if (super.getHealth() < 0 || super.getHealth() == 0) {

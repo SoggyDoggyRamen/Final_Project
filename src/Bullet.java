@@ -14,8 +14,7 @@ public class Bullet extends Entity{
     private Image bulletImage;
 
     public Bullet(GamePanel gamePanel, MouseHandler mouseHandler, TileManager tileManager, Player player) {
-        super(-1000, -1000, 10, "down", 0, 0,1, true);
-        createHitbox(0, 0, 4, 4);
+        super(-1000, -1000, 10, "down", 0, 0,4, true);
         shoot = false;
         super.setSpeed(12);
         this.gamePanel = gamePanel;
@@ -99,7 +98,7 @@ public class Bullet extends Entity{
         super.setWorldY(super.getWorldY() + velY);
         setScreenX((super.getWorldX() - player.getWorldX() + player.getPlayerX()));
         setScreenY((super.getWorldY() - player.getWorldY() + player.getPlayerY()));
-        createHitbox(0, 0, 4, 4);
+        moveHitbox(0, 0, 4, 4, getScreenX(), getScreenY());
     }
 
     public void draw(Graphics2D g2) {

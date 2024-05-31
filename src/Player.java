@@ -14,7 +14,6 @@ public class Player extends Entity {
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         super(0, 0, 10, "down", gamePanel.getScreenWidth()/2 - gamePanel.getTileSize(), gamePanel.getScreenHeight()/2 - gamePanel.getTileSize(), 100, true);
-        createHitbox(7, 2, 17, 29);
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
         getPlayerImage();
