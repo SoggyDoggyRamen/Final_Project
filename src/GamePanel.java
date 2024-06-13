@@ -1,5 +1,8 @@
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class GamePanel extends JPanel implements Runnable{
     //screen settings
@@ -18,7 +21,7 @@ public class GamePanel extends JPanel implements Runnable{
     Thread gameThread;
     KeyHandler keyHandler = new KeyHandler();
     MouseHandler mouseHandler = new MouseHandler();
-
+    SoundHandler soundHandler = new SoundHandler();
 
     //Player
     Player player = new Player(this, keyHandler);
@@ -27,7 +30,7 @@ public class GamePanel extends JPanel implements Runnable{
     TileManager tileManager = new TileManager(this, player);
 
     //Projectiles
-    BulletHandler bulletHandler = new BulletHandler(this, mouseHandler, player, 50, tileManager);
+    BulletHandler bulletHandler = new BulletHandler(this, mouseHandler, player, 50, tileManager, soundHandler);
 
     //Enemies
     EnemyHandler enemyHandler = new EnemyHandler(this, player, tileManager, bulletHandler);
@@ -35,7 +38,7 @@ public class GamePanel extends JPanel implements Runnable{
     //Hitbox detector
     HitboxDetector hitboxDetector = new HitboxDetector(enemyHandler.getPickledEggs(), bulletHandler.getBullets(), player, enemyHandler.getDrones());
 
-    public GamePanel() {
+    public GamePanel() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
         this.addKeyListener(keyHandler);

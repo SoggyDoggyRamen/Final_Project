@@ -46,21 +46,8 @@ public class PickledEgg extends Enemy{
     public void update() {
         //moving to player
         int[] velocity = getEnemyVelocity();
-        int tempWx = super.getWorldX() + velocity[0];
-        int tempWy = super.getWorldY() + velocity[1];
-        moveHitbox(6, 1, 10, 15, tempWx - player.getWorldX() + player.getScreenX(), tempWy - player.getWorldY() + player.getScreenY());
-        boolean intersects = false;
-        for (int i = 0; i < pickledEggs.size(); i ++) {
-            if (getHitbox().intersects(pickledEggs.get(i).getHitbox())) {
-                if (this.currID != pickledEggs.get(i).currID) {
-                    intersects = true;
-                }
-            }
-        }
-        if (!intersects) {
-            super.setWorldX(super.getWorldX() + velocity[0]);
-            super.setWorldY(super.getWorldY() + velocity[1]);
-        }
+        super.setWorldX(super.getWorldX() + velocity[0]);
+        super.setWorldY(super.getWorldY() + velocity[1]);
         setScreenX((super.getWorldX() - player.getWorldX() + player.getScreenX()));
         setScreenY((super.getWorldY() - player.getWorldY() + player.getScreenY()));
         //move the hitbox

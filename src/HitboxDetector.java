@@ -1,3 +1,4 @@
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 public class HitboxDetector {
@@ -16,7 +17,9 @@ public class HitboxDetector {
     public void update() {
         for (int i = 0; i < pickledEggs.size(); i ++) {
             if (pickledEggs.get(i).getHitbox().intersects(player.getHitbox())) {
-                player.gotHit();
+                if (player.getAlive()) {
+                    player.gotHit();
+                }
             }
         }
         for (int i = 0; i < bullets.length; i ++) {
@@ -30,6 +33,14 @@ public class HitboxDetector {
                 if (drones.get(idx2).getHitbox().intersects(bullets[i].getHitbox())) {
                     drones.get(idx2).gotHit();
                     bullets[i].gotHit();
+                }
+                if (drones.get(idx2).isDrawLaser()) {
+                    Line2D line = new Line2D.Float(drones.get(idx2).getLinewx1() - player.getWorldX() + player.getScreenX(), drones.get(idx2).getLinewy1() - player.getWorldY() + player.getScreenY(), drones.get(idx2).getLinewx2() - player.getWorldX() + player.getScreenX(), drones.get(idx2).getLinewy2() - player.getWorldY() + player.getScreenY());
+                    if (line.intersects(player.getHitbox())) {
+                        if (player.getAlive()) {
+                            player.gotHitByLaser();
+                        }
+                    }
                 }
             }
         }

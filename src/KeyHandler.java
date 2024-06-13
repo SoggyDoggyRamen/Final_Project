@@ -42,4 +42,8 @@ public class KeyHandler implements KeyListener {
             right = false;
         }
     }
+
+    public void setRoll(Boolean bool) {
+        roll = bool;
+    }
 }

@@ -91,26 +91,10 @@ public class Drone extends Enemy{
     public void update() {
         //moving to player
         int[] velocity = getEnemyVelocity();
-        int tempWx = super.getWorldX() + velocity[0];
-        int tempWy = super.getWorldY() + velocity[1];
-        moveHitbox(10, 9, 11, 13, tempWx - player.getWorldX() + player.getScreenX(), tempWy - player.getWorldY() + player.getScreenY());
-        boolean intersects = false;
-        for (int i = 0; i < pickledEggs.size(); i ++) {
-            if (getHitbox().intersects(pickledEggs.get(i).getHitbox())) {
-                intersects = true;
-            }
-        }
-        for (int i = 0; i < drones.size(); i ++) {
-            if (getHitbox().intersects(drones.get(i).getHitbox())) {
-                intersects = true;
-            }
-        }
-        if (!intersects) {
-            super.setWorldX(super.getWorldX() + velocity[0]);
-            super.setWorldY(super.getWorldY() + velocity[1]);
-            setScreenX((super.getWorldX() - player.getWorldX() + player.getScreenX()));
-            setScreenY((super.getWorldY() - player.getWorldY() + player.getScreenY()));
-        }
+        super.setWorldX(super.getWorldX() + velocity[0]);
+        super.setWorldY(super.getWorldY() + velocity[1]);
+        setScreenX((super.getWorldX() - player.getWorldX() + player.getScreenX()));
+        setScreenY((super.getWorldY() - player.getWorldY() + player.getScreenY()));
 
         //move the hitbox
         moveHitbox(10, 9, 11, 13, getScreenX(), getScreenY());
@@ -187,5 +171,29 @@ public class Drone extends Enemy{
             image = super.getDown0();
         }
         g2.drawImage(image, getScreenX(), getScreenY(), gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+    }
+
+    public int getLinewy1() {
+        return linewy1;
+    }
+
+    public int getLinewx1() {
+        return linewx1;
+    }
+
+    public int getLinewx2() {
+        return linewx2;
+    }
+
+    public int getLinewy2() {
+        return linewy2;
+    }
+
+    public boolean isLaser() {
+        return laser;
+    }
+
+    public boolean isDrawLaser() {
+        return drawLaser;
     }
 }

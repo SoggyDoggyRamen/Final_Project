@@ -71,7 +71,7 @@ public class Bullet extends Entity{
 
     public void shooting(boolean bool) {
         shoot = bool;
-        super.setHealth(1);
+        super.setHealth(100);
         if (shoot) {
             PointerInfo a = MouseInfo.getPointerInfo();
             Point b = a.getLocation();
