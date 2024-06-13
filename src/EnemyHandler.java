@@ -8,7 +8,9 @@ public class EnemyHandler {
     private BulletHandler bulletHandler;
     private ArrayList<PickledEgg> pickledEggs;
     private ArrayList<Drone> drones;
-    private int framesPassed;
+    private KingPickle kingPickle;
+    private boolean king;
+    private int framesPassed, totalFramesPassed, seconds;
 
     public EnemyHandler(GamePanel gamePanel, Player player, TileManager tileManager, BulletHandler bulletHandler) {
         this.gamepanel = gamePanel;
@@ -17,6 +19,7 @@ public class EnemyHandler {
         this.pickledEggs = new ArrayList<PickledEgg>();
         this.drones = new ArrayList<Drone>();
         this.bulletHandler = bulletHandler;
+        king = false;
         framesPassed = 0;
         generateEnemies(10);
     }
@@ -51,28 +54,39 @@ public class EnemyHandler {
         }
     }
 
+    public void spawnKingPickle() {
+        kingPickle = new KingPickle(player.getWorldX(), player.getWorldY() - 50, gamepanel, player);
+    }
     public void update() {
-        for (int i = 0; i < pickledEggs.size(); i ++) {
-            if (pickledEggs.get(i).getAlive()) {
-                pickledEggs.get(i).update();
+        totalFramesPassed ++;
+        if (seconds >= 5) {
+            spawnKingPickle();
+            king = true;
+        }
+        if (player.getAlive()) {
+            for (int i = 0; i < pickledEggs.size(); i ++) {
+                if (pickledEggs.get(i).getAlive()) {
+                    pickledEggs.get(i).update();
+                }
+                if (!pickledEggs.get(i).getAlive()) {
+                    pickledEggs.remove(i);
+                }
             }
-            if (!pickledEggs.get(i).getAlive()) {
-                pickledEggs.remove(i);
+            for (int i = 0; i < drones.size(); i ++) {
+                if (drones.get(i).getAlive()) {
+                    drones.get(i).update();
+                }
+                if (!drones.get(i).getAlive()) {
+                    drones.remove(i);
+                }
+            }
+            framesPassed ++;
+            if (framesPassed == 120) {
+                generateEnemies(10);
+                framesPassed = 0;
             }
         }
-        for (int i = 0; i < drones.size(); i ++) {
-            if (drones.get(i).getAlive()) {
-                drones.get(i).update();
-            }
-            if (!drones.get(i).getAlive()) {
-                drones.remove(i);
-            }
-        }
-        framesPassed ++;
-        if (framesPassed == 120) {
-            generateEnemies(10);
-            framesPassed = 0;
-        }
+        seconds = totalFramesPassed/60;
     }
 
     public void draw(Graphics2D g2) {
@@ -85,6 +99,9 @@ public class EnemyHandler {
             if (drone.getAlive()) {
                 drone.draw(g2);
             }
+        }
+        if (king) {
+            kingPickle.draw(g2);
         }
     }
 

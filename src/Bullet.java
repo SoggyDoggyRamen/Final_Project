@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 
-public class Bullet extends Entity{
+public class    Bullet extends Entity{
     private GamePanel gamePanel;
     private TileManager tileManager;
     private Player player;

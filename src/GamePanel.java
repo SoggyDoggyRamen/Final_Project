@@ -1,7 +1,10 @@
+import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -38,6 +41,9 @@ public class GamePanel extends JPanel implements Runnable{
     //Hitbox detector
     HitboxDetector hitboxDetector = new HitboxDetector(enemyHandler.getPickledEggs(), bulletHandler.getBullets(), player, enemyHandler.getDrones());
 
+
+    //lose scren
+    BufferedImage loseScreen = ImageIO.read(new File("Images/Screens/img.png"));
     public GamePanel() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
@@ -96,6 +102,9 @@ public class GamePanel extends JPanel implements Runnable{
         bulletHandler.draw(g2);
         enemyHandler.draw(g2);
         player.draw(g2);
+        if (!player.getAlive()) {
+            g2.drawImage(loseScreen, 450, 100, 288, 320, null);
+        }
     }
 
     public int getTileSize() {

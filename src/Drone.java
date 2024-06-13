@@ -89,61 +89,63 @@ public class Drone extends Enemy{
     }
 
     public void update() {
-        //moving to player
-        int[] velocity = getEnemyVelocity();
-        super.setWorldX(super.getWorldX() + velocity[0]);
-        super.setWorldY(super.getWorldY() + velocity[1]);
-        setScreenX((super.getWorldX() - player.getWorldX() + player.getScreenX()));
-        setScreenY((super.getWorldY() - player.getWorldY() + player.getScreenY()));
+        if (player.getAlive()) {
+            //moving to player
+            int[] velocity = getEnemyVelocity();
+            super.setWorldX(super.getWorldX() + velocity[0]);
+            super.setWorldY(super.getWorldY() + velocity[1]);
+            setScreenX((super.getWorldX() - player.getWorldX() + player.getScreenX()));
+            setScreenY((super.getWorldY() - player.getWorldY() + player.getScreenY()));
 
-        //move the hitbox
-        moveHitbox(10, 9, 11, 13, getScreenX(), getScreenY());
+            //move the hitbox
+            moveHitbox(10, 9, 11, 13, getScreenX(), getScreenY());
 
-        //check if its dead
-        if (super.getHealth() < 0 || super.getHealth() == 0) {
-            setAlive(false);
-        }
+            //check if its dead
+            if (super.getHealth() < 0 || super.getHealth() == 0) {
+                setAlive(false);
+            }
 
-        // animations
-        spriteCounter++;
-        if (spriteCounter == 10) {
-            if (spriteNum == 0) {
-                spriteNum = 1;
-            } else if (spriteNum == 1) {
-                spriteNum = 2;
-            } else if (spriteNum == 2) {
-                spriteNum = 1;
+            // animations
+            spriteCounter++;
+            if (spriteCounter == 10) {
+                if (spriteNum == 0) {
+                    spriteNum = 1;
+                } else if (spriteNum == 1) {
+                    spriteNum = 2;
+                } else if (spriteNum == 2) {
+                    spriteNum = 1;
+                }
+                spriteCounter = 0;
             }
-            spriteCounter = 0;
-        }
 
-        // indicator and laser stuff
-        if (framesPassed >= redLineFrameStart && framesPassed <= redLineFrameEnd && indicator) {
-            drawLaser = false;
-            if (framesPassed <= stillLineFrameStart) {
-                drawIndicator = true;
-                convertToWorldCoordinates();
+            // indicator and laser stuff
+            if (framesPassed >= redLineFrameStart && framesPassed <= redLineFrameEnd && indicator) {
+                drawLaser = false;
+                if (framesPassed <= stillLineFrameStart) {
+                    drawIndicator = true;
+                    convertToWorldCoordinates();
+                }
+                if (framesPassed > stillLineFrameStart) {
+                    drawStillIndicator = true;
+                    drawIndicator = false;
+                }
+                if (framesPassed == redLineFrameEnd) {
+                    framesPassed = 0;
+                    indicator = false;
+                    drawStillIndicator = false;
+                    laser = true;
+                }
             }
-            if (framesPassed > stillLineFrameStart) {
-                drawStillIndicator = true;
-                drawIndicator = false;
+            if (laser) {
+                drawLaser = true;
+                if (framesPassed == laserFrameEnd) {
+                    laser = false;
+                    indicator = true;
+                    framesPassed = 0;
+                }
             }
-            if (framesPassed == redLineFrameEnd) {
-                framesPassed = 0;
-                indicator = false;
-                drawStillIndicator = false;
-                laser = true;
-            }
+            framesPassed ++;
         }
-        if (laser) {
-            drawLaser = true;
-            if (framesPassed == laserFrameEnd) {
-                laser = false;
-                indicator = true;
-                framesPassed = 0;
-            }
-        }
-        framesPassed ++;
     }
 
     public void draw(Graphics2D g2) {

@@ -44,39 +44,38 @@ public class PickledEgg extends Enemy{
     }
 
     public void update() {
-        //moving to player
-        int[] velocity = getEnemyVelocity();
-        super.setWorldX(super.getWorldX() + velocity[0]);
-        super.setWorldY(super.getWorldY() + velocity[1]);
-        setScreenX((super.getWorldX() - player.getWorldX() + player.getScreenX()));
-        setScreenY((super.getWorldY() - player.getWorldY() + player.getScreenY()));
-        //move the hitbox
-        moveHitbox(10, 7, 10, 15, getScreenX(), getScreenY());
+        if (player.getAlive()) {
+            //moving to player
+            int[] velocity = getEnemyVelocity();
+            super.setWorldX(super.getWorldX() + velocity[0]);
+            super.setWorldY(super.getWorldY() + velocity[1]);
+            setScreenX((super.getWorldX() - player.getWorldX() + player.getScreenX()));
+            setScreenY((super.getWorldY() - player.getWorldY() + player.getScreenY()));
+            //move the hitbox
+            moveHitbox(10, 7, 10, 15, getScreenX(), getScreenY());
 
-        //check if its dead
-        if (super.getHealth() < 0 || super.getHealth() == 0) {
-            setAlive(false);
-        }
-
-        // animations
-        spriteCounter++;
-        if (spriteCounter == 10) {
-            if (spriteNum == 0) {
-                spriteNum = 1;
-            } else if (spriteNum == 1) {
-                spriteNum = 2;
-            } else if (spriteNum == 2) {
-                spriteNum = 1;
+            //check if its dead
+            if (super.getHealth() < 0 || super.getHealth() == 0) {
+                setAlive(false);
             }
-            spriteCounter = 0;
+
+            // animations
+            spriteCounter++;
+            if (spriteCounter == 10) {
+                if (spriteNum == 0) {
+                    spriteNum = 1;
+                } else if (spriteNum == 1) {
+                    spriteNum = 2;
+                } else if (spriteNum == 2) {
+                    spriteNum = 1;
+                }
+                spriteCounter = 0;
+            }
         }
     }
 
     public void draw(Graphics2D g2) {
         Image image = null;
-        //red line indicator
-        g2.setStroke(new BasicStroke(3));
-        Color c = new Color(1f,0f,0f,.3f );
 
         //Animations for pickle egg
         if (spriteNum == 1) {
