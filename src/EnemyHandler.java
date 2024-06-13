@@ -20,6 +20,7 @@ public class EnemyHandler {
         this.drones = new ArrayList<Drone>();
         this.bulletHandler = bulletHandler;
         king = false;
+        spawnKingPickle();
         framesPassed = 0;
         generateEnemies(10);
     }
@@ -59,9 +60,13 @@ public class EnemyHandler {
     }
     public void update() {
         totalFramesPassed ++;
-        if (seconds >= 5) {
-            spawnKingPickle();
+        if (seconds == 5) {
             king = true;
+        }
+        if (king) {
+            if (kingPickle.getAlive()) {
+                kingPickle.update();
+            }
         }
         if (player.getAlive()) {
             for (int i = 0; i < pickledEggs.size(); i ++) {
@@ -101,8 +106,14 @@ public class EnemyHandler {
             }
         }
         if (king) {
-            kingPickle.draw(g2);
+            if (kingPickle.getAlive()) {
+                kingPickle.draw(g2);
+            }
         }
+    }
+
+    public KingPickle getKingPickle() {
+        return kingPickle;
     }
 
     public ArrayList<PickledEgg> getPickledEggs() {

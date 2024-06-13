@@ -87,7 +87,6 @@ public class PickledEgg extends Enemy{
         else {
             image = super.getDown0();
         }
-        g2.draw(super.getHitbox());
         g2.drawImage(image, getScreenX(), getScreenY(), gamePanel.getTileSize(), gamePanel.getTileSize(), null);
     }
 }

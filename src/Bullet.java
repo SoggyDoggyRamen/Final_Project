@@ -14,7 +14,7 @@ public class    Bullet extends Entity{
     private Image bulletImage;
 
     public Bullet(GamePanel gamePanel, MouseHandler mouseHandler, TileManager tileManager, Player player) {
-        super(-1000, -1000, 10, "down", 0, 0,4, true);
+        super(-1000, -1000, 10, "down", 0, 0,100, true);
         shoot = false;
         super.setSpeed(12);
         this.gamePanel = gamePanel;
@@ -54,6 +54,9 @@ public class    Bullet extends Entity{
 
     public void gotHit() {
         super.setHealth(super.getHealth() - 1);
+    }
+    public void gotHitByKing() {
+        super.setHealth(super.getHealth() - 100);
     }
 
     public void getBulletVelocity(int mouseX, int mouseY) {

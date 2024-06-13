@@ -39,7 +39,7 @@ public class GamePanel extends JPanel implements Runnable{
     EnemyHandler enemyHandler = new EnemyHandler(this, player, tileManager, bulletHandler);
 
     //Hitbox detector
-    HitboxDetector hitboxDetector = new HitboxDetector(enemyHandler.getPickledEggs(), bulletHandler.getBullets(), player, enemyHandler.getDrones());
+    HitboxDetector hitboxDetector = new HitboxDetector(enemyHandler.getPickledEggs(), bulletHandler.getBullets(), player, enemyHandler.getDrones(), enemyHandler.getKingPickle());
 
 
     //lose scren

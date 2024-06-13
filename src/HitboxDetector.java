@@ -4,14 +4,16 @@ import java.util.ArrayList;
 public class HitboxDetector {
     private ArrayList<PickledEgg> pickledEggs;
     private ArrayList<Drone> drones;
+    private KingPickle kingPickle;
     private Bullet[] bullets;
     private Player player;
 
-    public HitboxDetector(ArrayList<PickledEgg> pickledEggs, Bullet[] bullets, Player player, ArrayList<Drone> drones) {
+    public HitboxDetector(ArrayList<PickledEgg> pickledEggs, Bullet[] bullets, Player player, ArrayList<Drone> drones, KingPickle kingPickle) {
         this.pickledEggs = pickledEggs;
         this.drones = drones;
         this.bullets = bullets;
         this.player = player;
+        this.kingPickle = kingPickle;
     }
 
     public void update() {
@@ -42,6 +44,10 @@ public class HitboxDetector {
                         }
                     }
                 }
+            }
+            if (kingPickle.getHitbox().intersects(bullets[i].getHitbox())) {
+                kingPickle.gotHit();
+                bullets[i].gotHitByKing();
             }
         }
 

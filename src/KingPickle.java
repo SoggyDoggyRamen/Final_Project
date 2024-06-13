@@ -5,15 +5,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 public class KingPickle extends Enemy {
 
-    private int spriteNum;
+    private int spriteNum, maxHP;
     private int spriteCounter;
     public KingPickle(int worldX, int worldY, GamePanel gamePanel, Player player) {
-        super(worldX, worldY , 10, 100, player, true);
+        super(worldX, worldY , 12, 100, player, true);
         setScreenX((super.getWorldX() - player.getWorldX() + player.getScreenX()));
         setScreenY((super.getWorldY() - player.getWorldY() + player.getScreenY()));
         this.gamePanel = gamePanel;
         this.player = player;
         spriteNum = 0;
+        maxHP = getHealth();
         spriteCounter = 0;
         getKingPickleImages();
     }
@@ -30,11 +31,25 @@ public class KingPickle extends Enemy {
     }
 
     public void gotHit() {
-        super.setHealth(super.getHealth() - 3);
+        super.setHealth(super.getHealth() - 6);
     }
 
     public void update() {
         if (player.getAlive()) {
+            //moving to player
+            int[] velocity = getEnemyVelocity();
+            super.setWorldX(super.getWorldX() + velocity[0]);
+            super.setWorldY(super.getWorldY() + velocity[1]);
+            setScreenX((super.getWorldX() - player.getWorldX() + player.getScreenX()));
+            setScreenY((super.getWorldY() - player.getWorldY() + player.getScreenY()));
+            //move the hitbox
+            moveHitbox(17, 11, 10 * 5, 15 * 5, getScreenX(), getScreenY());
+
+            //check if its dead
+            if (super.getHealth() < 0 || super.getHealth() == 0) {
+                setAlive(false);
+            }
+
             // animations
             spriteCounter++;
             if (spriteCounter == 10) {
@@ -63,6 +78,10 @@ public class KingPickle extends Enemy {
         else {
             image = super.getDown0();
         }
-        g2.drawImage(image, getScreenX(), getScreenY(), gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+        g2.setColor(Color.RED);
+        g2.fillRect(getScreenX(), getScreenY() - 15, 124, 10);
+        g2.setColor(Color.GREEN);
+        g2.fillRect(getScreenX(), getScreenY() - 15, (int)(124 * (double) getHealth() / maxHP), 10);
+        g2.drawImage(image, getScreenX(), getScreenY(), gamePanel.getTileSize() * 3, gamePanel.getTileSize() * 3, null);
     }
 }
